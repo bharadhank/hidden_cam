@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+.voice-wave-bar {
+  animation: voiceWave 1.2s ease-in-out infinite alternate;
+}
+@keyframes voiceWave {
+  0% { height: 4px; }
+  100% { height: 16px; }
+}
+</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface": "#0f1f16", "outline": "#727973", "primary": "#426550", "surface-container-highest": "#d4e7d8", "inverse-surface": "#24342a", "surface-tint": "#436651", "tertiary-container": "#a96704", "background": "#ebfeef", "outline-variant": "#c1c8c1", "surface-container": "#e0f3e3", "on-tertiary-fixed-variant": "#683d00", "error": "#ba1a1a", "secondary-fixed": "#afedf3", "on-secondary-container": "#2c6c70", "surface-container-low": "#e5f8e9", "on-primary-fixed": "#002112", "secondary": "#27676c", "on-tertiary": "#ffffff", "inverse-on-surface": "#e2f6e6", "on-secondary": "#ffffff", "on-background": "#0f1f16", "surface": "#ebfeef", "error-container": "#ffdad6", "on-error": "#ffffff", "primary-fixed": "#c4ecd1", "tertiary-fixed": "#ffdcbc", "primary-container": "#5a7e68", "inverse-primary": "#a9d0b6", "surface-container-high": "#daedde", "surface-dim": "#ccdfd0", "on-secondary-fixed-variant": "#004f54", "surface-container-lowest": "#ffffff", "tertiary": "#885100", "secondary-fixed-dim": "#93d1d6", "on-primary-container": "#ffffff", "on-secondary-fixed": "#002022", "tertiary-fixed-dim": "#ffb86a", "on-tertiary-container": "#ffffff", "on-primary-fixed-variant": "#2b4e3a", "on-surface-variant": "#414843", "on-tertiary-fixed": "#2c1700", "surface-variant": "#d4e7d8", "on-primary": "#ffffff", "surface-bright": "#ebfeef", "secondary-container": "#aceaf0", "primary-fixed-dim": "#a9d0b6", "on-error-container": "#93000a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.5rem", "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1rem", "gutter-tablet": "1.5rem", "margin-desktop": "3rem", "margin": "1.25rem", "margin-tablet": "2rem", "space-xs": "0.25rem", "space-xl": "2.25rem", "gutter-desktop": "2rem" }, "fontFamily": { "body-lg": ["Inter"], "label-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "headline-xl-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"] }, "fontSize": { "body-lg": ["17px", { "lineHeight": "26px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-xl": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }] } } } }</script></head><body class="bg-surface font-body-md text-on-surface antialiased pt-safe pb-safe flex flex-col min-h-screen"><main class="flex flex-col relative w-full flex-grow bg-surface"><div class="flex flex-col w-full">
+<div class="flex flex-col w-full px-margin pb-space-xl">
+<!-- Top Step Indicator & Companion Header -->
+<div class="flex items-center justify-between py-space-sm">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings: 'FILL' 1;">spa</span>
+<span>Step 2 of 3 • Philosophy</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-6 h-1.5 rounded-full bg-primary-fixed-dim"></span>
+<span class="w-8 h-1.5 rounded-full bg-primary transition-all"></span>
+<span class="w-2.5 h-1.5 rounded-full bg-surface-container-highest"></span>
+</div>
+</div>
+<!-- Hero Character & Warm Voice Bubble with Live Audio Visualizer -->
+<div class="relative mt-space-md mb-2 flex flex-col items-center">
+<!-- Decorative Organic Aura -->
+<div class="absolute -top-4 w-72 h-72 rounded-full bg-primary-fixed/30 blur-2xl pointer-events-none"></div>
+<!-- Interactive Speech Bubble -->
+<div class="relative z-10 w-full mb-space-sm p-space-md rounded-xl bg-surface-container-lowest text-on-surface shadow-md border border-primary/10 transition-all duration-300" id="companionSpeechBox">
+<div class="flex items-start gap-2.5">
+<div class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center shrink-0 mt-0.5" id="companionIconWrap">
+<span class="material-symbols-outlined text-primary text-[16px]" id="companionIcon" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div class="flex-1">
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed" id="companionSpeechText">
+<strong class="font-label-md text-label-md text-on-surface font-semibold" id="companionSpeaker">Hi!</strong> Indicators need verification before taking action. I'm here to help you inspect calmly.
+</p>
+<!-- Voice Guidance Waveform Visualizer -->
+<div class="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-surface-container">
+<div class="flex items-center gap-0.5 h-4">
+<span class="w-1 bg-primary rounded-full voice-wave-bar" style="animation-delay: 0.1s; height: 6px;"></span>
+<span class="w-1 bg-primary rounded-full voice-wave-bar" style="animation-delay: 0.3s; height: 12px;"></span>
+<span class="w-1 bg-primary rounded-full voice-wave-bar" style="animation-delay: 0.2s; height: 16px;"></span>
+<span class="w-1 bg-primary rounded-full voice-wave-bar" style="animation-delay: 0.4s; height: 10px;"></span>
+<span class="w-1 bg-primary rounded-full voice-wave-bar" style="animation-delay: 0.15s; height: 14px;"></span>
+<span class="w-1 bg-primary rounded-full voice-wave-bar" style="animation-delay: 0.35s; height: 8px;"></span>
+</div>
+<span class="font-label-sm text-[11px] text-primary font-medium tracking-wide">Aegis Voice Active • Interactive 3D Guide</span>
+</div>
+</div>
+</div>
+<!-- Speech Bubble Soft Tail -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-surface-container-lowest rotate-45 border-r border-b border-primary/10"></div>
+</div>
+<!-- Interactive 3D Three.js Companion Container -->
+<div class="relative w-full h-72 rounded-3xl bg-gradient-to-b from-surface-container-lowest to-surface-container shadow-md p-1 border border-primary/15 overflow-hidden flex flex-col items-center">
+<!-- STITCH_THREEJS_START:ANIMATION_36 class="absolute inset-0 w-full h-full bg-transparent" -->
+<div class="absolute inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_36" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_36');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  // Interactive 3D Animated Character Scene (Three.js)
+// Featuring the exact young anime-style safety companion: high bun hair, soft bangs, dark teal zip hoodie with shield badge.
+const width = container.clientWidth || window.innerWidth || 390;
+const height = container.clientHeight || 280;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+camera.position.set(0, 0, 4.4);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+container.appendChild(renderer.domElement);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0xf4fbf6, 1.4);
+scene.add(ambientLight);
+
+const keyLight = new THREE.DirectionalLight(0xfff7ed, 1.8);
+keyLight.position.set(2.5, 4, 3.5);
+scene.add(keyLight);
+
+const fillLight = new THREE.DirectionalLight(0x759c84, 1.5);
+fillLight.position.set(-3, 1, 2);
+scene.add(fillLight);
+
+const rimLight = new THREE.PointLight(0x52b788, 2.0, 10);
+rimLight.position.set(0, 2, -2);
+scene.add(rimLight);
+
+const avatarGroup = new THREE.Group();
+scene.add(avatarGroup);
+
+// Materials
+const skinMat = new THREE.MeshStandardMaterial({
+  color: 0xffdfd0,
+  roughness: 0.55,
+  metalness: 0.02
+});
+
+const hairMat = new THREE.MeshStandardMaterial({
+  color: 0x1a181b,
+  roughness: 0.8,
+  metalness: 0.05
+});
+
+const hoodieMat = new THREE.MeshStandardMaterial({
+  color: 0x2d5a4c, // Deep teal-green
+  roughness: 0.85,
+  metalness: 0.02
+});
+
+const whiteTeeMat = new THREE.MeshStandardMaterial({
+  color: 0xf8fafc,
+  roughness: 0.8,
+  metalness: 0.0
+});
+
+// Head (Soft anime proportions)
+const headGeo = new THREE.SphereGeometry(0.7, 32, 32);
+headGeo.scale(0.92, 1.05, 0.95);
+const head = new THREE.Mesh(headGeo, skinMat);
+head.position.y = 0.35;
+avatarGroup.add(head);
+
+// Cheek blush
+const blushMat = new THREE.MeshBasicMaterial({ color: 0xffa4a4, transparent: true, opacity: 0.35 });
+const leftBlush = new THREE.Mesh(new THREE.CircleGeometry(0.12, 16), blushMat);
+leftBlush.position.set(-0.35, 0.28, 0.63);
+leftBlush.rotation.y = -0.3;
+avatarGroup.add(leftBlush);
+
+const rightBlush = new THREE.Mesh(new THREE.CircleGeometry(0.12, 16), blushMat);
+rightBlush.position.set(0.35, 0.28, 0.63);
+rightBlush.rotation.y = 0.3;
+avatarGroup.add(rightBlush);
+
+// High Bun Hair
+const baseHairGeo = new THREE.SphereGeometry(0.74, 24, 24);
+baseHairGeo.scale(0.96, 1.02, 1.02);
+const baseHair = new THREE.Mesh(baseHairGeo, hairMat);
+baseHair.position.set(0, 0.48, -0.06);
+avatarGroup.add(baseHair);
+
+// Signature High Bun on Top
+const topBunGroup = new THREE.Group();
+const bunGeo = new THREE.SphereGeometry(0.42, 24, 24);
+bunGeo.scale(1.05, 0.92, 0.98);
+const topBun = new THREE.Mesh(bunGeo, hairMat);
+topBunGroup.add(topBun);
+
+// Hair scrunchie/tie
+const tieGeo = new THREE.TorusGeometry(0.32, 0.06, 12, 24);
+const tieMat = new THREE.MeshStandardMaterial({ color: 0x224237, roughness: 0.9 });
+const scrunchie = new THREE.Mesh(tieGeo, tieMat);
+scrunchie.rotation.x = Math.PI / 2;
+scrunchie.position.y = -0.22;
+topBunGroup.add(scrunchie);
+
+topBunGroup.position.set(0, 1.25, -0.05);
+avatarGroup.add(topBunGroup);
+
+// Soft Bangs & Tendrils framing face
+const bangGeo = new THREE.ConeGeometry(0.18, 0.45, 12);
+const bangL = new THREE.Mesh(bangGeo, hairMat);
+bangL.position.set(-0.25, 0.88, 0.62);
+bangL.rotation.z = 0.35;
+bangL.rotation.x = 0.2;
+avatarGroup.add(bangL);
+
+const bangR = new THREE.Mesh(bangGeo, hairMat);
+bangR.position.set(0.18, 0.9, 0.64);
+bangR.rotation.z = -0.25;
+bangR.rotation.x = 0.2;
+avatarGroup.add(bangR);
+
+const tendrilL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.02, 0.6, 8), hairMat);
+tendrilL.position.set(-0.62, 0.25, 0.45);
+tendrilL.rotation.z = 0.15;
+avatarGroup.add(tendrilL);
+
+const tendrilR = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.02, 0.6, 8), hairMat);
+tendrilR.position.set(0.62, 0.25, 0.45);
+tendrilR.rotation.z = -0.15;
+avatarGroup.add(tendrilR);
+
+// Eyes (Large, expressive anime brown eyes)
+const eyeWhiteMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const irisMat = new THREE.MeshBasicMaterial({ color: 0x3d2217 });
+const pupilMat = new THREE.MeshBasicMaterial({ color: 0x110805 });
+const gleamMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+function createAnimeEye(isRight) {
+  const g = new THREE.Group();
+  const sclera = new THREE.Mesh(new THREE.SphereGeometry(0.15, 16, 16), eyeWhiteMat);
+  sclera.scale.set(1.3, 1.1, 0.4);
+  g.add(sclera);
+
+  const iris = new THREE.Mesh(new THREE.CircleGeometry(0.11, 16), irisMat);
+  iris.position.set(0, 0, 0.075);
+  g.add(iris);
+
+  const pupil = new THREE.Mesh(new THREE.CircleGeometry(0.065, 16), pupilMat);
+  pupil.position.set(0, 0, 0.078);
+  g.add(pupil);
+
+  // Big anime gleam highlights
+  const gleam1 = new THREE.Mesh(new THREE.CircleGeometry(0.035, 12), gleamMat);
+  gleam1.position.set(0.035, 0.035, 0.082);
+  g.add(gleam1);
+  const gleam2 = new THREE.Mesh(new THREE.CircleGeometry(0.018, 12), gleamMat);
+  gleam2.position.set(-0.03, -0.03, 0.082);
+  g.add(gleam2);
+
+  const xPos = isRight ? 0.24 : -0.24;
+  g.position.set(xPos, 0.44, 0.63);
+  return g;
+}
+
+const leftEye = createAnimeEye(false);
+const rightEye = createAnimeEye(true);
+avatarGroup.add(leftEye);
+avatarGroup.add(rightEye);
+
+// Upper Eyelashes
+const lashMat = new THREE.MeshBasicMaterial({ color: 0x1a181b });
+const lashGeo = new THREE.BoxGeometry(0.24, 0.035, 0.04);
+const leftLash = new THREE.Mesh(lashGeo, lashMat);
+leftLash.position.set(-0.24, 0.57, 0.66);
+leftLash.rotation.z = 0.12;
+avatarGroup.add(leftLash);
+
+const rightLash = new THREE.Mesh(lashGeo, lashMat);
+rightLash.position.set(0.24, 0.57, 0.66);
+rightLash.rotation.z = -0.12;
+avatarGroup.add(rightLash);
+
+// Sweet Smile
+const smileCurve = new THREE.CubicBezierCurve3(
+  new THREE.Vector3(-0.13, 0.16, 0.65),
+  new THREE.Vector3(-0.06, 0.12, 0.68),
+  new THREE.Vector3(0.06, 0.12, 0.68),
+  new THREE.Vector3(0.13, 0.16, 0.65)
+);
+const smileGeo = new THREE.TubeGeometry(smileCurve, 16, 0.018, 8, false);
+const mouthMat = new THREE.MeshStandardMaterial({ color: 0xb34d58, roughness: 0.5 });
+const smileMesh = new THREE.Mesh(smileGeo, mouthMat);
+avatarGroup.add(smileMesh);
+
+// Slender Neck
+const neckGeo = new THREE.CylinderGeometry(0.22, 0.26, 0.35, 16);
+const neck = new THREE.Mesh(neckGeo, skinMat);
+neck.position.y = -0.18;
+avatarGroup.add(neck);
+
+// Torso / Teal-Green Zip Hoodie & White Shirt
+const torsoGroup = new THREE.Group();
+const hoodieGeo = new THREE.CylinderGeometry(0.55, 0.68, 1.1, 24);
+const hoodie = new THREE.Mesh(hoodieGeo, hoodieMat);
+hoodie.position.y = -0.85;
+torsoGroup.add(hoodie);
+
+// White inner t-shirt collar
+const collarGeo = new THREE.TorusGeometry(0.26, 0.06, 12, 24);
+const collar = new THREE.Mesh(collarGeo, whiteTeeMat);
+collar.rotation.x = Math.PI / 2;
+collar.position.y = -0.28;
+torsoGroup.add(collar);
+
+// Zipper line
+const zipGeo = new THREE.BoxGeometry(0.035, 0.85, 0.03);
+const zipMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.8, roughness: 0.3 });
+const zip = new THREE.Mesh(zipGeo, zipMat);
+zip.position.set(0, -0.75, 0.6);
+torsoGroup.add(zip);
+
+// Shield Badge on Left Chest
+const badgeGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.02, 16);
+const badgeMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
+const badge = new THREE.Mesh(badgeGeo, badgeMat);
+badge.rotation.x = Math.PI / 2;
+badge.position.set(-0.28, -0.65, 0.61);
+torsoGroup.add(badge);
+
+const badgeInner = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.025, 16), hoodieMat);
+badgeInner.rotation.x = Math.PI / 2;
+badgeInner.position.set(-0.28, -0.65, 0.62);
+torsoGroup.add(badgeInner);
+
+// Right Waving Arm (Friendly Greeting)
+const armGroup = new THREE.Group();
+armGroup.position.set(0.65, -0.52, 0);
+
+const upperArm = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.14, 0.52, 16), hoodieMat);
+upperArm.position.set(0.2, 0.22, 0.15);
+upperArm.rotation.z = -0.65;
+upperArm.rotation.x = 0.3;
+armGroup.add(upperArm);
+
+const forearmGroup = new THREE.Group();
+forearmGroup.position.set(0.38, 0.45, 0.28);
+
+const forearm = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.12, 0.48, 16), hoodieMat);
+forearm.position.y = 0.24;
+forearm.rotation.z = 0.28;
+forearmGroup.add(forearm);
+
+// Hand
+const hand = new THREE.Mesh(new THREE.SphereGeometry(0.15, 16, 16), skinMat);
+hand.scale.set(1.1, 1.25, 0.4);
+hand.position.set(0.08, 0.52, 0);
+hand.rotation.z = -0.15;
+forearmGroup.add(hand);
+
+// Fingers
+const fingerGeo = new THREE.CylinderGeometry(0.03, 0.025, 0.2, 8);
+for (let i = 0; i < 4; i++) {
+  const finger = new THREE.Mesh(fingerGeo, skinMat);
+  finger.position.set(-0.05 + i * 0.04, 0.66, 0);
+  finger.rotation.z = (i - 1.5) * 0.07;
+  forearmGroup.add(finger);
+}
+armGroup.add(forearmGroup);
+torsoGroup.add(armGroup);
+
+// Left Arm
+const leftArm = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.13, 0.8, 16), hoodieMat);
+leftArm.position.set(-0.7, -0.88, 0.06);
+leftArm.rotation.z = 0.12;
+torsoGroup.add(leftArm);
+
+avatarGroup.add(torsoGroup);
+
+// Floating Holographic Radar Shield & Scanning Wave
+const shieldGroup = new THREE.Group();
+const shieldShape = new THREE.Shape();
+shieldShape.moveTo(0, 0.38);
+shieldShape.quadraticCurveTo(0.28, 0.34, 0.3, 0.08);
+shieldShape.quadraticCurveTo(0.28, -0.24, 0, -0.38);
+shieldShape.quadraticCurveTo(-0.28, -0.24, -0.3, 0.08);
+shieldShape.quadraticCurveTo(-0.28, 0.34, 0, 0.38);
+
+const shieldGeo = new THREE.ExtrudeGeometry(shieldShape, { depth: 0.05, bevelEnabled: true, bevelSegments: 3, bevelSize: 0.02, bevelThickness: 0.02 });
+const shieldMat = new THREE.MeshStandardMaterial({
+  color: 0x52b788,
+  roughness: 0.3,
+  metalness: 0.2,
+  emissive: 0x2d6a4f,
+  emissiveIntensity: 0.45,
+  transparent: true,
+  opacity: 0.9
+});
+const shieldMesh = new THREE.Mesh(shieldGeo, shieldMat);
+shieldMesh.scale.set(0.65, 0.65, 0.65);
+shieldGroup.add(shieldMesh);
+
+shieldGroup.position.set(-0.6, 0.1, 0.9);
+avatarGroup.add(shieldGroup);
+
+// Glowing Sensor Pulse Rings
+const ringGeo1 = new THREE.TorusGeometry(1.35, 0.01, 16, 64);
+const ringMat1 = new THREE.MeshBasicMaterial({ color: 0x52b788, transparent: true, opacity: 0.4 });
+const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
+ring1.rotation.x = Math.PI / 2.3;
+ring1.position.y = -0.2;
+scene.add(ring1);
+
+// Interaction & Mouse tracking
+let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+function onPointerMove(e) {
+  const rect = container.getBoundingClientRect();
+  const x = (e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX)) - rect.left;
+  const y = (e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0].clientY)) - rect.top;
+  targetX = (x / rect.width - 0.5) * 2;
+  targetY = (y / rect.height - 0.5) * 2;
+}
+window.addEventListener('mousemove', onPointerMove);
+window.addEventListener('touchmove', onPointerMove, { passive: true });
+
+// Animation Loop
+let clock = new THREE.Clock();
+let blinkTimer = 0, isBlinking = false;
+
+function animate() {
+  requestAnimationFrame(animate);
+  const time = clock.getElapsedTime();
+
+  mouseX += (targetX - mouseX) * 0.06;
+  mouseY += (targetY - mouseY) * 0.06;
+
+  // Gentle breathing
+  avatarGroup.position.y = -0.1 + Math.sin(time * 2.2) * 0.03;
+  
+  // Head subtle eye & look tracking
+  head.rotation.y = mouseX * 0.32 + Math.sin(time * 0.8) * 0.04;
+  head.rotation.x = mouseY * 0.18 + Math.cos(time * 1.1) * 0.02;
+  baseHair.rotation.y = head.rotation.y;
+  topBunGroup.rotation.y = head.rotation.y * 0.9;
+
+  // Eye movement
+  leftEye.position.x = -0.24 + mouseX * 0.035;
+  leftEye.position.y = 0.44 - mouseY * 0.035;
+  rightEye.position.x = 0.24 + mouseX * 0.035;
+  rightEye.position.y = 0.44 - mouseY * 0.035;
+
+  // Natural anime blink
+  blinkTimer += 0.016;
+  if (blinkTimer > 3.4 && !isBlinking) isBlinking = true;
+  if (isBlinking) {
+    leftEye.scale.y = 0.1;
+    rightEye.scale.y = 0.1;
+    if (blinkTimer > 3.55) {
+      leftEye.scale.y = 1.0;
+      rightEye.scale.y = 1.0;
+      isBlinking = false;
+      blinkTimer = 0;
+    }
+  }
+
+  // Waving greeting hand
+  const wave = Math.sin(time * 5.0) * 0.35;
+  forearmGroup.rotation.z = 0.32 + wave;
+  hand.rotation.z = -0.12 + wave * 0.35;
+
+  // Floating shield gentle bounce & rotation
+  shieldGroup.position.y = 0.1 + Math.sin(time * 3.0) * 0.06;
+  shieldGroup.rotation.y = Math.sin(time * 1.8) * 0.2;
+
+  ring1.rotation.z = time * 0.35;
+
+  renderer.render(scene, camera);
+}
+animate();
+
+function onResize() {
+  const newW = container.clientWidth || window.innerWidth || 390;
+  const newH = container.clientHeight || 280;
+  camera.aspect = newW / newH;
+  camera.updateProjectionMatrix();
+  renderer.setSize(newW, newH);
+}
+window.addEventListener('resize', onResize);
+
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_36 -->
+<!-- Online Compassionate Status Pip Overlay -->
+<div class="absolute top-3 right-3 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-sm shadow-sm border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse" id="statusDot"></span>
+<span class="font-label-sm text-label-sm text-primary font-semibold" id="statusLabel">Aegis Live</span>
+</div>
+<!-- Subtle Gesture Hint -->
+<div class="absolute bottom-2 left-3 z-20 flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-lowest/80 text-[10px] text-on-surface-variant pointer-events-none">
+<span class="material-symbols-outlined text-[13px] text-primary">touch_app</span>
+<span>Touch or hover Aegis</span>
+</div>
+</div>
+<!-- Companion Interactive State Control Chips -->
+<div class="w-full mt-3 flex items-center justify-between gap-1.5 overflow-x-auto pb-1 px-0.5" id="stateChipsGroup">
+<button class="state-chip flex-1 py-1.5 px-2.5 rounded-xl bg-primary text-on-primary font-label-sm text-label-sm shadow-sm text-center whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95" data-state="greeting" type="button">
+👋 Aegis Wave
+</button>
+<button class="state-chip flex-1 py-1.5 px-2.5 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high text-center whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95" data-state="radar" type="button">
+🔍 Live Radar
+</button>
+<button class="state-chip flex-1 py-1.5 px-2.5 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high text-center whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95" data-state="caution" type="button">
+⚠️ Caution Verify
+</button>
+<button class="state-chip flex-1 py-1.5 px-2.5 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high text-center whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95" data-state="allclear" type="button">
+🛡️ All Clear
+</button>
+</div>
+</div>
+<!-- Narrative Heading & Framing -->
+<div class="text-center my-space-md">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">
+Don't Panic. Verify.
+</h1>
+<p class="mt-2 font-body-md text-body-md text-on-surface-variant leading-relaxed text-balance">
+Electronic devices like smart TVs, IoT routers, and digital clocks emit radio and optical signals. SafeLens distinguishes harmless hardware from unauthorized surveillance using structured multi-sensor checks.
+</p>
+</div>
+<!-- 3 Core Reassurance Pillars -->
+<div class="flex flex-col gap-space-sm mb-space-xl">
+<!-- Card 1 -->
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-surface-container-low shadow-sm transition-transform active:scale-[0.99]">
+<div class="w-11 h-11 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[24px]">sensors_off</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-label-lg text-label-lg text-on-surface">Signal ≠ Camera</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm">Context</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+Ambient radio waves and Wi-Fi beacons are standard in modern rooms and rarely indicate hidden monitoring equipment.
+</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-surface-container-low shadow-sm transition-transform active:scale-[0.99]">
+<div class="w-11 h-11 rounded-lg bg-secondary-container flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[24px]">lens_blur</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-label-lg text-label-lg text-on-surface">Multi-Sensor Cross-Check</h2>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Precision</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+We confirm potential lenses by synthesizing optical IR reflection, local gateway telemetry, and magnetic field deviations.
+</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-surface-container-low shadow-sm transition-transform active:scale-[0.99]">
+<div class="w-11 h-11 rounded-lg bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[24px]">verified_user</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-label-lg text-label-lg text-on-surface">Calm Protocol</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-primary font-label-sm text-label-sm">Peace of Mind</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+Step-by-step guidance ensures comprehensive spatial reassurance while keeping you completely at ease.
+</p>
+</div>
+</div>
+</div>
+<!-- Action Group -->
+<div class="flex flex-col items-center gap-space-md mt-auto">
+<button class="w-full py-3.5 px-6 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-md flex items-center justify-center gap-2 transition-transform active:scale-[0.98] hover:bg-primary cursor-pointer" id="nextButton" type="button">
+<span>Next: How Scanning Works</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md text-primary hover:text-on-surface transition-colors cursor-pointer" id="skipButton" type="button">
+Skip to Home
+</button>
+</div>
+</div>
+</div>
+<!-- Embedded State Handling Script -->
+<script>
+  (function initAvatarStates() {
+    const stateResponses = {
+      greeting: {
+        speaker: "Aegis",
+        icon: "eco",
+        text: "Indicators need verification before taking action. I'm here to help you inspect calmly.",
+        status: "Aegis Live",
+        dotColor: "bg-primary"
+      },
+      radar: {
+        speaker: "Aegis Radar Active",
+        icon: "radar",
+        text: "Analyzing ambient radio spectrum & infrared reflection passes. Rotating telemetry nodes...",
+        status: "Multi-Sensor Scanning",
+        dotColor: "bg-secondary"
+      },
+      caution: {
+        speaker: "Aegis Caution Note",
+        icon: "warning",
+        text: "Unlabeled signal found. Don't panic: 94% are smart thermostats or mesh routers.",
+        status: "Verification Stage",
+        dotColor: "bg-tertiary-container"
+      },
+      allclear: {
+        speaker: "Aegis All Clear",
+        icon: "verified_user",
+        text: "Zero covert transmission channels detected. Your privacy boundary is fully preserved.",
+        status: "Shield Protective",
+        dotColor: "bg-primary"
+      }
+    };
+
+    const chips = document.querySelectorAll('.state-chip');
+    const speechText = document.getElementById('companionSpeechText');
+    const speaker = document.getElementById('companionSpeaker');
+    const icon = document.getElementById('companionIcon');
+    const statusLabel = document.getElementById('statusLabel');
+    const statusDot = document.getElementById('statusDot');
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const stateKey = chip.getAttribute('data-state');
+        const info = stateResponses[stateKey];
+        if (!info) return;
+
+        // Chip style updates
+        chips.forEach(c => {
+          c.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+          c.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        chip.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        chip.classList.remove('bg-surface-container', 'text-on-surface-variant');
+
+        // Speech update
+        speaker.innerText = info.speaker;
+        icon.innerText = info.icon;
+        speechText.innerHTML = '<strong class="font-label-md text-label-md text-on-surface font-semibold">' + info.speaker + ':</strong> ' + info.text;
+        statusLabel.innerText = info.status;
+      });
+    });
+  })();
+
+  document.getElementById('nextButton')?.addEventListener('click', () => {
+    const btn = document.getElementById('nextButton');
+    btn.classList.add('opacity-90');
+    setTimeout(() => {
+      btn.classList.remove('opacity-90');
+    }, 150);
+  });
+</script></main></body></html>

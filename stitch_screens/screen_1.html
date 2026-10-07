@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface": "#0f1f16", "outline": "#727973", "primary": "#426550", "surface-container-highest": "#d4e7d8", "inverse-surface": "#24342a", "surface-tint": "#436651", "tertiary-container": "#a96704", "background": "#ebfeef", "outline-variant": "#c1c8c1", "surface-container": "#e0f3e3", "on-tertiary-fixed-variant": "#683d00", "error": "#ba1a1a", "secondary-fixed": "#afedf3", "on-secondary-container": "#2c6c70", "surface-container-low": "#e5f8e9", "on-primary-fixed": "#002112", "secondary": "#27676c", "on-tertiary": "#ffffff", "inverse-on-surface": "#e2f6e6", "on-secondary": "#ffffff", "on-background": "#0f1f16", "surface": "#ebfeef", "error-container": "#ffdad6", "on-error": "#ffffff", "primary-fixed": "#c4ecd1", "tertiary-fixed": "#ffdcbc", "primary-container": "#5a7e68", "inverse-primary": "#a9d0b6", "surface-container-high": "#daedde", "surface-dim": "#ccdfd0", "on-secondary-fixed-variant": "#004f54", "surface-container-lowest": "#ffffff", "tertiary": "#885100", "secondary-fixed-dim": "#93d1d6", "on-primary-container": "#ffffff", "on-secondary-fixed": "#002022", "tertiary-fixed-dim": "#ffb86a", "on-tertiary-container": "#ffffff", "on-primary-fixed-variant": "#2b4e3a", "on-surface-variant": "#414843", "on-tertiary-fixed": "#2c1700", "surface-variant": "#d4e7d8", "on-primary": "#ffffff", "surface-bright": "#ebfeef", "secondary-container": "#aceaf0", "primary-fixed-dim": "#a9d0b6", "on-error-container": "#93000a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.5rem", "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1rem", "gutter-tablet": "1.5rem", "margin-desktop": "3rem", "margin": "1.25rem", "margin-tablet": "2rem", "space-xs": "0.25rem", "space-xl": "2.25rem", "gutter-desktop": "2rem" }, "fontFamily": { "body-lg": ["Inter"], "label-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "headline-xl-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"] }, "fontSize": { "body-lg": ["17px", { "lineHeight": "26px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-xl": ["38px", { "lineHeight": "46px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }] } } } }</script><style>
+      @keyframes radarSweep {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    </style></head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_10px_rgba(30,46,36,0.03)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="Go back" class="min-w-[44px] min-h-[44px] flex items-center justify-center -ml-2 rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="Safety companion focused scanning" class="h-8 w-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8wIJespVkVjJXKtu8vT2bLvD7uXbkc2GSNuUwst7-0C0FO196hMm8UCYDFAHNibS5mBxRkOK6f11zI4ZRyz63pXK4DBrlxjwTQhPkLPLVlYOARt5ilvNAXiaFligEizlIM1c7FxGv3sDRSZY_epLd-5IoO73zxVXAL3ZHuTewExC-LeASeLjWMlHoG5RDz_9cIhVZrh5yEAyW5zeI_N9jr7hCt0QtObUEQip8Wc6oVo0aWcwKXUZp7w"><h1 class="font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface truncate max-w-[180px]">Active Scan</h1></div><div class="flex items-center gap-space-xs"><button aria-label="Guide Assistance" class="min-w-[44px] min-h-[44px] flex items-center justify-center text-primary hover:bg-surface-container-high rounded-full transition-colors"><span class="material-symbols-outlined text-[22px]">support_agent</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full px-margin pb-space-xl">
+<!-- Companion Guidance Section -->
+<section class="mt-space-sm mb-space-md">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<!-- Ambient organic accent behind avatar -->
+<div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-primary-fixed/40 blur-2xl pointer-events-none"></div>
+<div class="flex items-start gap-space-md relative z-10">
+<!-- Aegis Focused Avatar -->
+<div class="relative flex-shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-surface-container-highest shadow-sm">
+<img alt="Companion holding holographic scanner" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8wIJespVkVjJXKtu8vT2bLvD7uXbkc2GSNuUwst7-0C0FO196hMm8UCYDFAHNibS5mBxRkOK6f11zI4ZRyz63pXK4DBrlxjwTQhPkLPLVlYOARt5ilvNAXiaFligEizlIM1c7FxGv3sDRSZY_epLd-5IoO73zxVXAL3ZHuTewExC-LeASeLjWMlHoG5RDz_9cIhVZrh5yEAyW5zeI_N9jr7hCt0QtObUEQip8Wc6oVo0aWcwKXUZp7w">
+</div>
+<!-- Breathing status indicator dot -->
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
+</div>
+</div>
+<!-- Guidance Content -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<span class="font-label-md text-label-md text-primary font-semibold tracking-wide uppercase">Safety Companion</span>
+<!-- State Pill -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[12px] animate-spin" style="animation-duration: 3s;">radar</span>
+              Scanning Mode • 42%
+            </span>
+</div>
+<!-- Speech bubble text -->
+<div class="relative bg-surface-container-lowest/90 rounded-lg p-2.5 shadow-sm mt-1">
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+              “I’m checking the surroundings. Keep your phone steady and move slowly around the room perimeter.”
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Central Scanner Radar Section -->
+<section class="mb-space-lg">
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col items-center shadow-md relative overflow-hidden">
+<!-- Guidance Context Top Banner -->
+<div class="w-full bg-surface-container-lowest/80 rounded-lg px-3 py-2 mb-space-md flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[20px] flex-shrink-0" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<p class="font-label-sm text-label-sm text-on-surface truncate">
+          Live Sweep: Point camera toward clock radios, AC vents, and power outlets
+        </p>
+</div>
+<!-- Radar Polar Graphic Visualization -->
+<div class="relative w-64 h-64 my-1 flex items-center justify-center">
+<!-- SVG Polar Grid & Sweep Effect -->
+<svg class="absolute inset-0 w-full h-full" fill="none" viewBox="0 0 260 260">
+<!-- Outer Reference Rings -->
+<circle class="text-primary/15" cx="130" cy="130" r="120" stroke="currentColor" stroke-dasharray="4 4" stroke-width="1.5"></circle>
+<circle class="text-primary/20" cx="130" cy="130" r="90" stroke="currentColor" stroke-width="1"></circle>
+<circle class="text-primary/25" cx="130" cy="130" r="60" stroke="currentColor" stroke-width="1"></circle>
+<circle class="text-primary/30" cx="130" cy="130" r="30" stroke="currentColor" stroke-width="1.5"></circle>
+<!-- Polar Axis Crosshairs -->
+<line class="text-primary/15" stroke="currentColor" stroke-width="1" x1="10" x2="250" y1="130" y2="130"></line>
+<line class="text-primary/15" stroke="currentColor" stroke-width="1" x1="130" x2="130" y1="10" y2="250"></line>
+<line class="text-primary/10" stroke="currentColor" stroke-dasharray="2 3" stroke-width="1" x1="45" x2="215" y1="45" y2="215"></line>
+<line class="text-primary/10" stroke="currentColor" stroke-dasharray="2 3" stroke-width="1" x1="45" x2="215" y1="215" y2="45"></line>
+<!-- Gradient Sweep Cone (Rotating) -->
+<defs>
+<radialGradient cx="50%" cy="50%" id="sweepGradient" r="50%">
+<stop offset="0%" stop-color="#426550" stop-opacity="0.35"></stop>
+<stop offset="70%" stop-color="#27676c" stop-opacity="0.12"></stop>
+<stop offset="100%" stop-color="#27676c" stop-opacity="0"></stop>
+</radialGradient>
+<linearGradient id="sweepArc" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#5a7e68" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#5a7e68" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<!-- Smooth rotating sweep beam -->
+<g class="origin-center" style="transform-origin: 130px 130px; animation: radarSweep 4s linear infinite;">
+<path d="M 130 130 L 130 10 A 120 120 0 0 1 215 45 Z" fill="url(#sweepArc)" opacity="0.75"></path>
+<line stroke="#426550" stroke-linecap="round" stroke-width="2" x1="130" x2="215" y1="130" y2="45"></line>
+</g>
+<!-- Detected Signal Pings in Soft Teal -->
+<!-- Ping 1 (North-East: Clock radio cluster) -->
+<g transform="translate(178, 76)">
+<circle class="text-secondary-fixed animate-ping opacity-75" cx="0" cy="0" fill="currentColor" r="9"></circle>
+<circle class="text-secondary" cx="0" cy="0" fill="currentColor" r="5"></circle>
+</g>
+<!-- Ping 2 (South-West: Vent zone) -->
+<g transform="translate(74, 184)">
+<circle class="text-secondary-fixed animate-ping opacity-60" cx="0" cy="0" fill="currentColor" r="7" style="animation-delay: 1.2s;"></circle>
+<circle class="text-secondary" cx="0" cy="0" fill="currentColor" r="4"></circle>
+</g>
+<!-- Ping 3 (Near center benign node) -->
+<g transform="translate(150, 155)">
+<circle class="text-primary-container" cx="0" cy="0" fill="currentColor" r="3.5"></circle>
+</g>
+</svg>
+<!-- Center Readout Disc -->
+<div class="w-24 h-24 rounded-full bg-surface-container-lowest/95 backdrop-blur-md shadow-md flex flex-col items-center justify-center z-10">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface leading-none tracking-tight">42%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 font-medium">00:14s elapsed</span>
+<div class="flex items-center gap-1 mt-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-[10px] text-primary font-semibold tracking-wider uppercase">Active</span>
+</div>
+</div>
+</div>
+<!-- Quick Room Micro-progress -->
+<div class="w-full flex items-center justify-between px-2 pt-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          Zone 1: Entryways
+        </span>
+<span class="flex items-center gap-1 text-primary font-semibold">
+<span class="material-symbols-outlined text-[16px] animate-spin" style="animation-duration: 2s;">sync</span>
+          Zone 2: Bedroom Perimeter
+        </span>
+</div>
+</div>
+</section>
+<!-- Active Sensor Array Status List -->
+<section class="mb-space-lg">
+<div class="flex items-center justify-between mb-space-sm px-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Sensor Telemetry</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4 Channels Active</span>
+</div>
+<div class="flex flex-col gap-2.5">
+<!-- Sensor 1: RF Signal Sniffing -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">wifi_tethering</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">RF Signal Sniffing</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">2.4 / 5.8 GHz • 8 identified</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex-shrink-0 flex items-center gap-1.5 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          Scanning
+        </span>
+</div>
+<!-- Sensor 2: Infrared Glare Detector -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">flare</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Infrared Glare Detector</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Optical reflection sweep ready</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex-shrink-0 flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">lens</span>
+          Active
+        </span>
+</div>
+<!-- Sensor 3: Magnetic Flux Sensor -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">explore</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Magnetic Flux Sensor</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">0.42 μT • Baseline normal</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-semibold flex-shrink-0 flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings: 'FILL' 1;">check</span>
+          Calibrated
+        </span>
+</div>
+<!-- Sensor 4: Bluetooth Low Energy -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">bluetooth_searching</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface font-semibold truncate">Bluetooth Low Energy</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">4 beacon nodes in perimeter</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex-shrink-0 flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">hearing</span>
+          Listening
+        </span>
+</div>
+</div>
+</section>
+<!-- Interactive Environmental Hint Card -->
+<section class="mb-space-lg">
+<div class="bg-primary-fixed/30 rounded-xl p-space-md flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+        Tip: Reflections from hidden pinhole lenses shimmer brightly in the viewfinder when held at eye-level.
+      </p>
+</div>
+</section>
+<!-- Bottom Control Action Buttons -->
+<section class="flex items-center gap-space-sm pt-space-xs">
+<!-- Cancel Scan Button -->
+<button class="flex-1 py-3.5 px-4 rounded-full bg-surface-container-high text-on-surface font-label-lg text-label-lg font-semibold flex items-center justify-center gap-2 hover:bg-surface-container-highest active:scale-[0.98] transition-all shadow-sm" id="btn-cancel" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+      Cancel Scan
+    </button>
+<!-- Pause / Resume Sweep Button -->
+<button class="flex-1 py-3.5 px-4 rounded-full bg-primary text-on-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.98] transition-all shadow-md" id="btn-pause" type="button">
+<span class="material-symbols-outlined text-[20px]" id="pause-icon">pause</span>
+<span id="pause-label" class="">Pause Sweep</span>
+</button>
+</section>
+</div>
+<!-- Inline Micro-interaction Script -->
+<script>
+  (function() {
+    // Add radar sweep keyframe dynamically in a harmless inline style block or animate via JS
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes radarSweep {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Pause button toggle micro-interaction
+    const pauseBtn = document.getElementById('btn-pause');
+    const pauseIcon = document.getElementById('pause-icon');
+    const pauseLabel = document.getElementById('pause-label');
+    let isPaused = false;
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', function() {
+        isPaused = !isPaused;
+        if (isPaused) {
+          pauseIcon.textContent = 'play_arrow';
+          pauseLabel.textContent = 'Resume Sweep';
+          pauseBtn.classList.replace('bg-primary', 'bg-secondary');
+        } else {
+          pauseIcon.textContent = 'pause';
+          pauseLabel.textContent = 'Pause Sweep';
+          pauseBtn.classList.replace('bg-secondary', 'bg-primary');
+        }
+      });
+    }
+
+    const cancelBtn = document.getElementById('btn-cancel');
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', function() {
+        if (confirm('Cancel perimeter sweep and return to safety hub?')) {
+          window.history.back();
+        }
+      });
+    }
+  })();
+</script></main>
+
+</body></html>

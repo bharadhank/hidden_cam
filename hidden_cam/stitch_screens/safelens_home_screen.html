@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-secondary-fixed": "#0a2009", "surface-tint": "#256863", "on-primary-fixed-variant": "#00504b", "surface-bright": "#e6fff6", "on-primary-container": "#f3fffc", "background": "#e6fff6", "on-surface-variant": "#3f4947", "primary-fixed": "#adefe7", "secondary": "#4c6548", "on-secondary": "#ffffff", "tertiary-container": "#956e19", "outline-variant": "#bfc9c6", "primary-fixed-dim": "#92d2cb", "on-surface": "#00201a", "tertiary-fixed-dim": "#f0bf64", "tertiary-fixed": "#ffdea6", "on-tertiary-fixed-variant": "#5e4200", "surface-dim": "#bae3d6", "surface-container-highest": "#c3ebde", "surface-container": "#cef7ea", "on-primary-fixed": "#00201e", "secondary-fixed": "#ceeac5", "on-error": "#ffffff", "error": "#ba1a1a", "outline": "#6f7977", "surface-container-low": "#d3fcef", "on-tertiary-container": "#fffbff", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#b3ceab", "primary": "#226661", "inverse-surface": "#10362e", "secondary-container": "#ceeac5", "on-error-container": "#93000a", "inverse-on-surface": "#d1f9ec", "on-primary": "#ffffff", "surface-variant": "#c3ebde", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#354d31", "surface": "#e6fff6", "error-container": "#ffdad6", "tertiary": "#795600", "on-secondary-container": "#526b4d", "on-background": "#00201a", "on-tertiary-fixed": "#271900", "primary-container": "#3e7f79", "inverse-primary": "#92d2cb", "surface-container-high": "#c8f1e4" }, borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, spacing: { "space-md": "1rem", "space-lg": "1.5rem", "gutter": "1rem", "margin": "1.25rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "2rem" }, fontFamily: { "label-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"] }, fontSize: { "label-lg": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-sm": ["17px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;min-height:100%;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.03)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">security</span></div><span class="font-headline-md text-headline-md tracking-tight text-on-surface">SafeLens</span></div><div class="flex items-center gap-space-xs"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[22px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface px-margin"><div class="flex flex-col w-full pb-6 space-y-5">
+<!-- Top Greeting & Atmospheric Illustration Banner -->
+<div class="relative w-full rounded-lg bg-surface-container-lowest p-space-lg shadow-sm overflow-hidden">
+<!-- Gentle Ambient Foliage Backdrop -->
+<div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-surface-container opacity-60 pointer-events-none"></div>
+<div class="absolute right-0 top-0 bottom-0 w-2/5 flex items-end justify-end pointer-events-none select-none pr-space-xs pb-space-xs">
+<img class="w-full h-full object-contain object-bottom opacity-90" data-alt="Soft flat vector botanical illustration of warm indoor potted plants beside a gentle sunlit arch window, sage and forest green foliage, soothing calm beige and cream tones, minimal line art style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUii6Iy-V2-aSRHtjpZOffSXScuThL1Omd67Vl3rPXsKPHIpsigipm-6uIkZMC-qPSv6JiJo85X7LA0LCH_F_v-UkrqYIftH1TU9F4QtgKl2iTn4hB04Id06SHGgmc9DdIOj4q6atjaXOi685NIiNVQU5Z_0Fsvr_zC0OWYLCGopsvJVVwiGuNhbcioxE9xosorwx1rt0jlHUiUNGztnMT2tP_kKeS-mENysCpvgk2gOlKNGbJteQ2WQ"/>
+</div>
+<!-- Hero Content -->
+<div class="relative z-10 max-w-[62%] flex flex-col">
+<div class="flex items-center gap-1.5 text-on-surface-variant mb-1.5">
+<span class="font-label-md text-label-md">Good evening</span>
+<span class="text-base select-none">👋</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight leading-tight">
+        Stay aware.<br/>Stay comfortable.
+      </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+        SafeLens helps you check your surroundings for possible suspicious devices.
+      </p>
+</div>
+</div>
+<!-- Primary Scan Action Area -->
+<div class="w-full flex flex-col items-center">
+<button class="w-full h-14 rounded-full bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(34,102,97,0.22)] active:scale-[0.985] transition-all" id="scan-now-btn">
+<span class="material-symbols-outlined text-[22px]">radar</span>
+<span>Scan Now</span>
+</button>
+<div class="flex items-center gap-1.5 mt-2.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Ready to scan optical &amp; radio signals</span>
+</div>
+</div>
+<!-- Section 1: Quick Safety Check Status -->
+<div class="w-full flex flex-col space-y-2">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Quick Safety Check</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Last activity</span>
+</div>
+<div class="w-full rounded-DEFAULT bg-surface-container-lowest p-space-md shadow-sm flex items-center justify-between cursor-pointer active:bg-surface-container-low transition-colors" role="button" tabindex="0">
+<div class="flex items-center gap-3.5 min-w-0">
+<div class="w-11 h-11 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary text-[24px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">No indicators found</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Today · 7:42 PM · Visual Check</span>
+</div>
+</div>
+<div class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant flex-shrink-0 ml-2">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Section 2: Quick Safety Tip -->
+<div class="w-full flex flex-col space-y-2">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Quick Safety Tip</span>
+<span class="font-label-sm text-label-sm text-primary">Daily habit</span>
+</div>
+<div class="w-full rounded-DEFAULT bg-surface-container-lowest p-space-md shadow-sm flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-full bg-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[22px]">lightbulb</span>
+</div>
+<div class="flex flex-col flex-1 pt-0.5">
+<p class="font-body-md text-body-md text-on-surface leading-snug">
+          Take a moment to look around before using an unfamiliar space.
+        </p>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1.5">
+          Smoke detectors, clock radios, and wall sconces are common items to visually verify.
+        </span>
+</div>
+</div>
+</div>
+<!-- Environmental Awareness Card: Living Status -->
+<div class="w-full rounded-DEFAULT bg-surface-container-high p-space-md flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">nest_eco_leaf</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Ambient Mode Active</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Background reflections muted</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-primary-fixed-variant bg-primary-fixed px-2.5 py-1 rounded-full font-semibold">Secured</span>
+</div>
+<!-- Decorative Botanical Baseline Framing -->
+<div class="w-full flex justify-between items-end pt-2 px-space-sm opacity-40 pointer-events-none select-none">
+<svg class="w-16 h-12 text-secondary" fill="none" viewbox="0 0 64 48">
+<path d="M4 44C12 28 26 12 48 8C40 22 28 36 4 44Z" fill="currentColor" fill-opacity="0.5"></path>
+<path d="M22 44C26 34 34 24 54 18C46 28 40 38 22 44Z" fill="currentColor"></path>
+</svg>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm pb-1">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span>SafeLens Companion v1.0</span>
+</div>
+<svg class="w-16 h-12 text-secondary transform scale-x-[-1]" fill="none" viewbox="0 0 64 48">
+<path d="M4 44C12 28 26 12 48 8C40 22 28 36 4 44Z" fill="currentColor" fill-opacity="0.5"></path>
+<path d="M22 44C26 34 34 24 54 18C46 28 40 38 22 44Z" fill="currentColor"></path>
+</svg>
+</div>
+</div>
+<script>
+  // Simple micro-interaction for scan trigger
+  document.getElementById('scan-now-btn')?.addEventListener('click', function() {
+    this.classList.add('scale-95');
+    setTimeout(() => {
+      this.classList.remove('scale-95');
+      const scanTab = document.querySelector('[data-path="camera-scanner"]');
+      if (scanTab) {
+        scanTab.click();
+      }
+    }, 180);
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-2px_12px_rgba(35,72,63,0.05)]" data-active-classes="text-primary font-semibold"><div class="h-20 px-gutter flex items-center justify-around"><a aria-current="page" class="flex flex-col items-center justify-center w-14 h-14 rounded-full transition-colors text-primary font-semibold" data-path="home-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">shield</span><span class="font-label-sm text-label-sm mt-0.5">Home</span></a><a class="flex flex-col items-center justify-center -translate-y-2" data-path="camera-scanner" href="#"><div class="w-13 h-13 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_6px_16px_rgba(34,102,97,0.25)]"><span class="material-symbols-outlined text-[26px]">photo_camera</span></div><span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Scan</span></a><a class="flex flex-col items-center justify-center w-14 h-14 rounded-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="scan-history" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm mt-0.5">History</span></a><a class="flex flex-col items-center justify-center w-14 h-14 rounded-full text-on-surface-variant hover:text-on-surface transition-colors" data-path="privacy-settings" href="#"><span class="material-symbols-outlined text-[24px]">tune</span><span class="font-label-sm text-label-sm mt-0.5">Settings</span></a></div></nav></body></html>
