@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^8.2.1
   flutter_3d_controller: ^2.3.0
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,7 @@ flutter:
   assets:
     - assets/images/
     - assets/avatar/safelens_avatar.glb
+    - assets/models/safelens_shield.glb
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
