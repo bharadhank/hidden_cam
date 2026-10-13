@@ -17,11 +17,11 @@ class ReportConfirmationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.warmCream,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           child: Column(
             children: [
-              const Spacer(),
+              const SizedBox(height: 20),
 
               // Shield in SUCCESS animation state
               const Shield3DWidget(
@@ -88,7 +88,7 @@ class ReportConfirmationScreen extends StatelessWidget {
                 ),
               ),
 
-              const Spacer(flex: 2),
+              const SizedBox(height: 32),
 
               // Primary Action: View in History
               PrimaryButton(
