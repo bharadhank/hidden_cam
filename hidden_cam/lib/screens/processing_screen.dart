@@ -88,10 +88,10 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
             children: [
               const Spacer(flex: 2),
 
-              // Restrained rotating shield in PROCESSING state
+              // 3D Volumetric Shield in PROCESSING state with holographic rings
               Shield3DWidget(
                 state: ShieldState.processing,
-                size: 140,
+                size: 160,
                 showRings: true,
               ),
 
@@ -100,14 +100,14 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
               const Text(
                 'Analyzing Environment',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: AppColors.deepForestGreen,
-                  letterSpacing: -0.3,
+                  letterSpacing: -0.4,
                 ),
               ),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
 
               // Step Text
               AnimatedSwitcher(
@@ -126,25 +126,37 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
 
               const SizedBox(height: 28),
 
-              // Calming Stage Dots
+              // 3D Luminous Stage Indicators
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(_stages.length, (index) {
                   final isDone = index <= _currentStep;
+                  final isCurrent = index == _currentStep;
                   return AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: isDone ? 24 : 8,
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeOutCubic,
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    width: isCurrent ? 32 : (isDone ? 20 : 10),
                     height: 6,
                     decoration: BoxDecoration(
                       color: isDone
                           ? AppColors.naturalTeal
                           : AppColors.surfaceContainerHigh,
                       borderRadius: BorderRadius.circular(9999),
+                      boxShadow: isCurrent
+                          ? [
+                              BoxShadow(
+                                color: AppColors.naturalTeal.withValues(alpha: 0.4),
+                                blurRadius: 8,
+                                spreadRadius: 1,
+                              ),
+                            ]
+                          : null,
                     ),
                   );
                 }),
               ),
+
 
               const Spacer(flex: 3),
 

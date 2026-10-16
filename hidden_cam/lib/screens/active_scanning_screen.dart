@@ -527,31 +527,102 @@ class _ScanGaugePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = (size.width / 2) - 10;
+    final radius = (size.width / 2) - 12;
 
-    // Track circle
-    final trackPaint = Paint()
-      ..color = trackColor
+    // 1. Inset Track Groove with subtle 3D inner bevel
+    final groovePaint = Paint()
+      ..color = trackColor.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 7.0
+      ..strokeWidth = 10.0
       ..strokeCap = StrokeCap.round;
-    canvas.drawCircle(center, radius, trackPaint);
+    canvas.drawCircle(center, radius, groovePaint);
 
-    // Progress Arc
+    // 2. Precision Radial Tech Ticks
+    const int tickCount = 48;
+    final tickPaint = Paint()
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+
+    for (int i = 0; i < tickCount; i++) {
+      final angle = (i * (2 * math.pi / tickCount)) - (math.pi / 2);
+      final isPassed = (i / tickCount) <= progress;
+      tickPaint.color = isPassed
+          ? arcColor.withValues(alpha: 0.45)
+          : trackColor.withValues(alpha: 0.35);
+
+      final rIn = radius - ((i % 4 == 0) ? 9.0 : 6.0);
+      final rOut = radius - 3.0;
+
+      final p1 = Offset(center.dx + math.cos(angle) * rIn, center.dy + math.sin(angle) * rIn);
+      final p2 = Offset(center.dx + math.cos(angle) * rOut, center.dy + math.sin(angle) * rOut);
+
+      canvas.drawLine(p1, p2, tickPaint);
+    }
+
+    if (progress <= 0.001) return;
+
     final sweepAngle = 2 * math.pi * progress;
-    final arcPaint = Paint()
-      ..color = arcColor
+    final arcRect = Rect.fromCircle(center: center, radius: radius);
+
+    // 3. Ambient Neon Glow behind the active arc
+    final glowPaint = Paint()
+      ..color = arcColor.withValues(alpha: 0.32)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 7.0
+      ..strokeWidth = 14.0
+      ..strokeCap = StrokeCap.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+
+    canvas.drawArc(
+      arcRect,
+      -math.pi / 2,
+      sweepAngle,
+      false,
+      glowPaint,
+    );
+
+    // 4. Luminous Gradient Progress Arc
+    final arcShader = SweepGradient(
+      startAngle: -math.pi / 2,
+      endAngle: -math.pi / 2 + sweepAngle,
+      colors: [
+        arcColor.withValues(alpha: 0.45),
+        arcColor,
+        const Color(0xFF67D8CD),
+      ],
+      stops: const [0.0, 0.75, 1.0],
+    ).createShader(arcRect);
+
+    final arcPaint = Paint()
+      ..shader = arcShader
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 8.0
       ..strokeCap = StrokeCap.round;
 
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
+      arcRect,
       -math.pi / 2,
       sweepAngle,
       false,
       arcPaint,
     );
+
+    // 5. Glowing Head Spark / Pulse Bead at the tip of the arc
+    final tipAngle = (-math.pi / 2) + sweepAngle;
+    final tipX = center.dx + math.cos(tipAngle) * radius;
+    final tipY = center.dy + math.sin(tipAngle) * radius;
+    final tipPoint = Offset(tipX, tipY);
+
+    // Outer glow for the tip
+    final tipGlowPaint = Paint()
+      ..color = const Color(0xFF67D8CD).withValues(alpha: 0.7)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
+    canvas.drawCircle(tipPoint, 6.0, tipGlowPaint);
+
+    // Solid bright core
+    final tipCorePaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(tipPoint, 3.2, tipCorePaint);
   }
 
   @override
@@ -559,3 +630,4 @@ class _ScanGaugePainter extends CustomPainter {
     return oldDelegate.progress != progress;
   }
 }
+

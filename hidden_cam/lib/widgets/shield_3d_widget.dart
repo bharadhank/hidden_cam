@@ -29,15 +29,23 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
   late AnimationController _floatController;
   late AnimationController _pulseController;
   late AnimationController _transitionController;
+  late AnimationController _laserScanController;
+  late AnimationController _dragSpringController;
+
+  // Touch drag 3D rotation angles
+  double _dragTiltX = 0.0;
+  double _dragTiltY = 0.0;
+  double _springStartTiltX = 0.0;
+  double _springStartTiltY = 0.0;
 
   @override
   void initState() {
     super.initState();
 
-    // Idle floating / breathing rotation
+    // Floating compound 3D oscillation (Lissajous curve)
     _floatController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3200),
+      duration: const Duration(milliseconds: 3600),
     );
 
     // Pulse for scanning & caution
@@ -46,12 +54,30 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
       duration: const Duration(milliseconds: 1600),
     );
 
-    // State transition controller (200-450ms)
+    // Laser scanner vertical sweep
+    _laserScanController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    );
+
+    // State transition controller
     _transitionController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 350),
     );
     _transitionController.forward();
+
+    // Spring return animation when user releases finger drag
+    _dragSpringController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    )..addListener(() {
+        final curve = Curves.elasticOut.transform(_dragSpringController.value);
+        setState(() {
+          _dragTiltX = _springStartTiltX * (1.0 - curve);
+          _dragTiltY = _springStartTiltY * (1.0 - curve);
+        });
+      });
 
     _updateAnimationState();
   }
@@ -73,6 +99,7 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
     if (widget.isReducedMotion || widget.state == ShieldState.paused) {
       _floatController.stop();
       _pulseController.stop();
+      _laserScanController.stop();
       return;
     }
 
@@ -80,22 +107,26 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
       case ShieldState.idle:
       case ShieldState.greeting:
         _pulseController.stop();
-        if (!_floatController.isAnimating) _floatController.repeat(reverse: true);
+        _laserScanController.stop();
+        if (!_floatController.isAnimating) _floatController.repeat();
         break;
       case ShieldState.scanning:
       case ShieldState.processing:
+        if (!_floatController.isAnimating) _floatController.repeat();
+        if (!_pulseController.isAnimating) _pulseController.repeat(reverse: true);
+        if (!_laserScanController.isAnimating) _laserScanController.repeat(reverse: true);
+        break;
       case ShieldState.caution:
-        if (!_floatController.isAnimating) _floatController.repeat(reverse: true);
+        _laserScanController.stop();
+        if (!_floatController.isAnimating) _floatController.repeat();
         if (!_pulseController.isAnimating) _pulseController.repeat(reverse: true);
         break;
       case ShieldState.safe:
       case ShieldState.success:
-        _floatController.stop();
-        _pulseController.stop();
-        break;
       case ShieldState.paused:
         _floatController.stop();
         _pulseController.stop();
+        _laserScanController.stop();
         break;
     }
   }
@@ -104,8 +135,27 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
   void dispose() {
     _floatController.dispose();
     _pulseController.dispose();
+    _laserScanController.dispose();
     _transitionController.dispose();
+    _dragSpringController.dispose();
     super.dispose();
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    if (widget.isReducedMotion) return;
+    _dragSpringController.stop();
+    setState(() {
+      // Sensible tilt responsiveness
+      _dragTiltY = (_dragTiltY + details.delta.dx * 0.008).clamp(-0.45, 0.45);
+      _dragTiltX = (_dragTiltX - details.delta.dy * 0.008).clamp(-0.35, 0.35);
+    });
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    if (widget.isReducedMotion) return;
+    _springStartTiltX = _dragTiltX;
+    _springStartTiltY = _dragTiltY;
+    _dragSpringController.forward(from: 0.0);
   }
 
   @override
@@ -114,6 +164,8 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
 
     return GestureDetector(
       onTap: widget.onTap,
+      onPanUpdate: _onPanUpdate,
+      onPanEnd: _onPanEnd,
       child: Center(
         child: SizedBox(
           width: effectiveSize * (widget.showRings ? 1.6 : 1.1),
@@ -121,7 +173,7 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Ambient scanning rings when requested
+              // Ambient 3D holographic scanning rings
               if (widget.showRings)
                 ScanRingsWidget(
                   size: effectiveSize * 1.5,
@@ -142,7 +194,7 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
                       : widget.state == ShieldState.safe ||
                               widget.state == ShieldState.success
                           ? AppColors.softSageGreen.withValues(alpha: 0.35)
-                          : AppColors.naturalTeal.withValues(alpha: 0.18);
+                          : AppColors.naturalTeal.withValues(alpha: 0.22);
 
                   final scale = widget.isReducedMotion
                       ? 1.0
@@ -151,15 +203,15 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
                   return Transform.scale(
                     scale: scale,
                     child: Container(
-                      width: effectiveSize * 0.78,
-                      height: effectiveSize * 0.78,
+                      width: effectiveSize * 0.82,
+                      height: effectiveSize * 0.82,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
                             color: glowColor,
-                            blurRadius: 40,
-                            spreadRadius: 8,
+                            blurRadius: 45,
+                            spreadRadius: 10,
                           ),
                         ],
                       ),
@@ -168,55 +220,73 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
                 },
               ),
 
-              // Reusable 3D Shield with 3D Matrix Perspective Transformation
+              // Volumetric 3D Shield with 3D Matrix Perspective & Extrusion
               AnimatedBuilder(
                 animation: Listenable.merge([
                   _floatController,
+                  _laserScanController,
                   _transitionController,
                 ]),
                 builder: (context, child) {
-                  // Compute 3D rotation angles
-                  double rotY = 0.0;
-                  double rotX = 0.0;
+                  final floatVal = _floatController.value * 2 * math.pi;
+
+                  // Compound 3D Lissajous floating motion
+                  double autoRotY = 0.0;
+                  double autoRotX = 0.0;
+                  double autoRotZ = 0.0;
                   double translateY = 0.0;
 
                   if (!widget.isReducedMotion) {
                     if (widget.state == ShieldState.idle ||
                         widget.state == ShieldState.greeting) {
-                      rotY = math.sin(_floatController.value * math.pi * 2) * 0.12;
-                      rotX = math.cos(_floatController.value * math.pi * 2) * 0.04;
-                      translateY = math.sin(_floatController.value * math.pi * 2) * 4.0;
-                    } else if (widget.state == ShieldState.scanning) {
-                      rotY = math.sin(_floatController.value * math.pi * 4) * 0.08;
-                      rotX = -0.05;
-                    } else if (widget.state == ShieldState.processing) {
-                      rotY = math.sin(_floatController.value * math.pi * 4) * 0.15;
+                      autoRotY = math.sin(floatVal) * 0.18;
+                      autoRotX = math.cos(floatVal * 0.7) * 0.08;
+                      autoRotZ = math.sin(floatVal * 0.5) * 0.03;
+                      translateY = math.sin(floatVal) * 5.0;
+                    } else if (widget.state == ShieldState.scanning ||
+                        widget.state == ShieldState.processing) {
+                      // Energetic scanning hover
+                      autoRotY = math.sin(floatVal * 1.5) * 0.22;
+                      autoRotX = math.cos(floatVal * 1.2) * 0.10;
+                      autoRotZ = math.sin(floatVal * 0.8) * 0.04;
+                      translateY = math.sin(floatVal * 2.0) * 4.0;
+                    } else if (widget.state == ShieldState.caution) {
+                      autoRotY = math.sin(floatVal * 2.5) * 0.12;
+                      autoRotX = 0.06;
+                      translateY = math.sin(floatVal * 1.5) * 3.0;
                     }
                   }
 
+                  final totalRotX = autoRotX + _dragTiltX;
+                  final totalRotY = autoRotY + _dragTiltY;
+                  final totalRotZ = autoRotZ + (_dragTiltY * 0.1);
+
                   // 3D perspective matrix
                   final transform = Matrix4.identity()
-                    ..setEntry(3, 2, 0.0018) // Perspective distance
+                    ..setEntry(3, 2, 0.002) // Natural perspective distance
                     ..setTranslationRaw(0.0, translateY, 0.0)
-                    ..rotateX(rotX)
-                    ..rotateY(rotY);
+                    ..rotateX(totalRotX)
+                    ..rotateY(totalRotY)
+                    ..rotateZ(totalRotZ);
 
                   return Transform(
                     transform: transform,
                     alignment: Alignment.center,
                     child: CustomPaint(
                       size: Size(effectiveSize, effectiveSize),
-                      painter: _Shield3DPainter(
+                      painter: _VolumetricShield3DPainter(
                         state: widget.state,
                         transitionProgress: _transitionController.value,
-                        rotationY: rotY,
+                        rotationX: totalRotX,
+                        rotationY: totalRotY,
+                        laserScanProgress: _laserScanController.value,
                       ),
                     ),
                   );
                 },
               ),
 
-              // State Badges: Subtle checkmark for SAFE, Amber indicator for CAUTION
+              // State Badges
               if (widget.state == ShieldState.safe ||
                   widget.state == ShieldState.success)
                 Positioned(
@@ -232,13 +302,13 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.naturalTeal.withValues(alpha: 0.4),
-                            blurRadius: 12,
-                            offset: const Offset(0, 3),
+                            blurRadius: 14,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
                       child: Icon(
-                        Icons.check,
+                        Icons.check_rounded,
                         color: Colors.white,
                         size: effectiveSize * 0.18,
                       ),
@@ -261,7 +331,7 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
                           BoxShadow(
                             color: AppColors.softAmber.withValues(alpha: 0.5),
                             blurRadius: 14,
-                            offset: const Offset(0, 3),
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -281,15 +351,19 @@ class _Shield3DWidgetState extends State<Shield3DWidget>
   }
 }
 
-class _Shield3DPainter extends CustomPainter {
+class _VolumetricShield3DPainter extends CustomPainter {
   final ShieldState state;
   final double transitionProgress;
+  final double rotationX;
   final double rotationY;
+  final double laserScanProgress;
 
-  _Shield3DPainter({
+  _VolumetricShield3DPainter({
     required this.state,
     required this.transitionProgress,
+    required this.rotationX,
     required this.rotationY,
+    required this.laserScanProgress,
   });
 
   @override
@@ -298,29 +372,64 @@ class _Shield3DPainter extends CustomPainter {
     final h = size.height;
     final center = Offset(w / 2, h / 2);
 
-    // Dynamic light reflection shift based on 3D rotation
+    // 3D Extrusion offsets based on rotation
+    final extrudeDx = math.sin(rotationY) * 9.0;
+    final extrudeDy = -math.sin(rotationX) * 9.0;
+
+    // Dynamic virtual light source position
     final lightOffset = Offset(
-      center.dx - (rotationY * w * 0.8),
-      center.dy - (h * 0.35),
+      center.dx - (rotationY * w * 0.9),
+      center.dy - (h * 0.38) + (rotationX * h * 0.5),
     );
 
-    // 1. Shadow beneath the shield
-    final shadowPath = _createShieldPath(w * 0.94, h * 0.94, center.translate(0, 8));
-    final shadowPaint = Paint()
-      ..color = AppColors.deepForestGreen.withValues(alpha: 0.16)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14);
-    canvas.drawPath(shadowPath, shadowPaint);
+    // 1. Cast Floor Shadow (Moves in opposition to 3D tilt)
+    final shadowOffset = Offset(-extrudeDx * 1.3, 14.0 - extrudeDy * 0.8);
+    final floorShadowPath = _createShieldPath(w * 0.94, h * 0.94, center + shadowOffset);
+    final floorShadowPaint = Paint()
+      ..color = AppColors.deepForestGreen.withValues(alpha: 0.18)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 16);
+    canvas.drawPath(floorShadowPath, floorShadowPaint);
 
-    // 2. Outer Bevel Rim (Deep Forest Green #23483F)
+    // 2. 3D Extruded Chassis Slices (Creates Real Physical Depth / Bevel Thickness)
+    const int extrusionSteps = 5;
+    for (int step = extrusionSteps; step >= 1; step--) {
+      final t = step / extrusionSteps;
+      final sliceOffset = Offset(extrudeDx * t, extrudeDy * t);
+      final slicePath = _createShieldPath(
+        w * (0.90 + (0.015 * t)),
+        h * (0.90 + (0.015 * t)),
+        center + sliceOffset,
+      );
+
+      // Chassis dark graphite green with rim lighting
+      final slicePaint = Paint()
+        ..color = Color.lerp(
+          const Color(0xFF0F241F),
+          const Color(0xFF1D3F36),
+          1.0 - t,
+        )!
+        ..style = PaintingStyle.fill;
+
+      canvas.drawPath(slicePath, slicePaint);
+    }
+
+    // 3. Outer Titanium / Forest Bevel Rim (Front Face)
     final outerPath = _createShieldPath(w * 0.90, h * 0.90, center);
     final outerShader = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        const Color(0xFF2C564B),
-        AppColors.deepForestGreen,
-        const Color(0xFF17332C),
+      begin: Alignment(
+        -1.0 - (rotationY * 1.5),
+        -1.0 - (rotationX * 1.5),
+      ),
+      end: Alignment(
+        1.0 + (rotationY * 1.5),
+        1.0 + (rotationX * 1.5),
+      ),
+      colors: const [
+        Color(0xFF38685C),
+        Color(0xFF23483F),
+        Color(0xFF16322B),
       ],
+      stops: const [0.0, 0.45, 1.0],
     ).createShader(Rect.fromLTWH(0, 0, w, h));
 
     final outerPaint = Paint()
@@ -328,16 +437,17 @@ class _Shield3DPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     canvas.drawPath(outerPath, outerPaint);
 
-    // 3. Raised Edge (Natural Teal #4F8F89)
+    // 4. Raised Luminous Metallic Edge (Natural Teal #4F8F89)
     final raisedEdgePath = _createShieldPath(w * 0.82, h * 0.82, center);
     final raisedShader = LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        const Color(0xFF67AAA3),
+        const Color(0xFF88D2C9),
         AppColors.naturalTeal,
-        const Color(0xFF386D67),
+        const Color(0xFF2E655F),
       ],
+      stops: const [0.0, 0.5, 1.0],
     ).createShader(Rect.fromLTWH(0, 0, w, h));
 
     final raisedPaint = Paint()
@@ -345,19 +455,22 @@ class _Shield3DPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     canvas.drawPath(raisedEdgePath, raisedPaint);
 
-    // 4. Inner Recessed Face (Deep Forest Green Body)
+    // 5. Deep Concave Crystalline Emerald Face
     final innerFacePath = _createShieldPath(w * 0.72, h * 0.72, center);
     final innerShader = RadialGradient(
       center: Alignment(
         (lightOffset.dx - center.dx) / (w / 2),
         (lightOffset.dy - center.dy) / (h / 2),
       ),
-      radius: 0.85,
+      radius: 0.95,
       colors: [
-        const Color(0xFF315C50),
+        state == ShieldState.caution
+            ? const Color(0xFF5A4418)
+            : const Color(0xFF32685A),
         AppColors.deepForestGreen,
-        const Color(0xFF17352D),
+        const Color(0xFF102720),
       ],
+      stops: const [0.0, 0.65, 1.0],
     ).createShader(Rect.fromLTWH(0, 0, w, h));
 
     final innerPaint = Paint()
@@ -365,18 +478,69 @@ class _Shield3DPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     canvas.drawPath(innerFacePath, innerPaint);
 
-    // Inner bevel highlight line
+    // Inner bevel highlight stroke
     final innerStroke = Paint()
-      ..color = Colors.white.withValues(alpha: 0.20)
+      ..color = Colors.white.withValues(alpha: 0.28)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
+      ..strokeWidth = 1.6;
     canvas.drawPath(innerFacePath, innerStroke);
 
-    // 5. Inset Leaf Details (Warm Cream #F7F3E8 and Soft Sage Green #A8C3A0)
+    // 6. Active Holographic 3D Laser Scan Line (Sweeps across the shield)
+    if (state == ShieldState.scanning || state == ShieldState.processing) {
+      canvas.save();
+      canvas.clipPath(innerFacePath);
+
+      final scanY = (center.dy - (h * 0.35)) + (laserScanProgress * (h * 0.70));
+
+      // Laser Glow Curtain
+      final curtainPaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.transparent,
+            AppColors.naturalTeal.withValues(alpha: 0.35),
+            Colors.white.withValues(alpha: 0.75),
+            AppColors.naturalTeal.withValues(alpha: 0.15),
+            Colors.transparent,
+          ],
+          stops: const [0.0, 0.42, 0.5, 0.58, 1.0],
+        ).createShader(Rect.fromLTWH(0, scanY - 24, w, 48));
+
+      canvas.drawRect(Rect.fromLTWH(0, scanY - 24, w, 48), curtainPaint);
+
+      // Bright Core Laser Beam
+      final laserCorePaint = Paint()
+        ..color = Colors.white
+        ..strokeWidth = 2.0
+        ..style = PaintingStyle.stroke;
+      canvas.drawLine(Offset(0, scanY), Offset(w, scanY), laserCorePaint);
+
+      canvas.restore();
+    }
+
+    // 7. Inset 3D Leaf Logo (Floating above shield bed with parallax)
+    final leafParallax = Offset(-rotationY * 3.5, rotationX * 3.5);
     canvas.save();
-    canvas.translate(center.dx, center.dy);
+    canvas.translate(center.dx + leafParallax.dx, center.dy + leafParallax.dy);
+
     final leafScale = (w / 120.0) * 0.65;
     canvas.scale(leafScale, leafScale);
+
+    // Leaf drop shadow for stereoscopic 3D floating effect
+    final leafShadow = Path();
+    leafShadow.moveTo(1, -21);
+    leafShadow.cubicTo(-14, -11, -19, 5, -17, 19);
+    leafShadow.cubicTo(-15, 31, -7, 41, 1, 45);
+    leafShadow.cubicTo(-4, 35, -5, 23, -3, 11);
+    leafShadow.cubicTo(-1, 1, 5, -9, 13, -15);
+    leafShadow.cubicTo(9, -19, 5, -21, 1, -21);
+    leafShadow.close();
+
+    final leafShadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.35)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
+    canvas.drawPath(leafShadow, leafShadowPaint);
 
     // Outer leaf arc in Warm Cream
     final leafCreamPath = Path();
@@ -389,7 +553,15 @@ class _Shield3DPainter extends CustomPainter {
     leafCreamPath.close();
 
     final creamPaint = Paint()
-      ..color = AppColors.warmCream
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFFFFFFFF),
+          AppColors.warmCream,
+          Color(0xFFE4DCBF),
+        ],
+      ).createShader(const Rect.fromLTWH(-20, -22, 40, 66))
       ..style = PaintingStyle.fill;
     canvas.drawPath(leafCreamPath, creamPaint);
 
@@ -403,41 +575,60 @@ class _Shield3DPainter extends CustomPainter {
     leafSagePath.close();
 
     final sagePaint = Paint()
-      ..color = AppColors.softSageGreen
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFC4E0BD),
+          AppColors.softSageGreen,
+          Color(0xFF7E9D75),
+        ],
+      ).createShader(const Rect.fromLTWH(-10, -10, 20, 50))
       ..style = PaintingStyle.fill;
     canvas.drawPath(leafSagePath, sagePaint);
 
     canvas.restore();
 
-    // 6. Specular Glare Arc (Realistic Light Reflection)
+    // 8. 3D Curved Specular Glass Glare (Slides dynamically across the lens)
+    final glareShiftX = -rotationY * (w * 0.35);
+    final glareShiftY = rotationX * (h * 0.25);
+
     final specularPaint = Paint()
       ..shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.white.withValues(alpha: 0.35),
+          Colors.white.withValues(alpha: 0.42),
           Colors.white.withValues(alpha: 0.0),
         ],
-      ).createShader(Rect.fromLTWH(w * 0.2, h * 0.15, w * 0.4, h * 0.35))
+        stops: const [0.0, 0.85],
+      ).createShader(
+        Rect.fromLTWH(
+          (w * 0.2) + glareShiftX,
+          (h * 0.15) + glareShiftY,
+          w * 0.45,
+          h * 0.38,
+        ),
+      )
       ..style = PaintingStyle.fill;
 
     final glarePath = Path()
-      ..moveTo(center.dx, center.dy - (h * 0.34))
+      ..moveTo(center.dx + glareShiftX, center.dy - (h * 0.34) + glareShiftY)
       ..cubicTo(
-        center.dx - (w * 0.28),
-        center.dy - (h * 0.34),
-        center.dx - (w * 0.34),
-        center.dy - (h * 0.15),
-        center.dx - (w * 0.34),
-        center.dy + (h * 0.05),
+        center.dx - (w * 0.28) + glareShiftX,
+        center.dy - (h * 0.34) + glareShiftY,
+        center.dx - (w * 0.34) + glareShiftX,
+        center.dy - (h * 0.15) + glareShiftY,
+        center.dx - (w * 0.34) + glareShiftX,
+        center.dy + (h * 0.05) + glareShiftY,
       )
       ..cubicTo(
-        center.dx - (w * 0.15),
-        center.dy - (h * 0.1),
-        center.dx,
-        center.dy - (h * 0.2),
-        center.dx,
-        center.dy - (h * 0.34),
+        center.dx - (w * 0.15) + glareShiftX,
+        center.dy - (h * 0.1) + glareShiftY,
+        center.dx + glareShiftX,
+        center.dy - (h * 0.2) + glareShiftY,
+        center.dx + glareShiftX,
+        center.dy - (h * 0.34) + glareShiftY,
       )
       ..close();
 
@@ -497,9 +688,11 @@ class _Shield3DPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _Shield3DPainter oldDelegate) {
+  bool shouldRepaint(covariant _VolumetricShield3DPainter oldDelegate) {
     return oldDelegate.state != state ||
         oldDelegate.transitionProgress != transitionProgress ||
-        oldDelegate.rotationY != rotationY;
+        oldDelegate.rotationX != rotationX ||
+        oldDelegate.rotationY != rotationY ||
+        oldDelegate.laserScanProgress != laserScanProgress;
   }
 }
