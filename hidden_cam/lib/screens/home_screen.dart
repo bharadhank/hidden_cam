@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../services/storage_service.dart';
 import '../models/scan_result_model.dart';
-import '../widgets/shield_3d_widget.dart';
-import '../controllers/shield_animation_controller.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rounded_card.dart';
 import '../widgets/safety_tip_card.dart';
+import '../guide/guide.dart';
 import 'scan_method_selection_screen.dart';
 import 'normal_result_screen.dart';
 import 'device_details_screen.dart';
@@ -27,11 +26,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late List<ScanResultModel> _history;
+  late FemaleGuideAnimationController _ariaGuideController;
 
   @override
   void initState() {
     super.initState();
+    _ariaGuideController = FemaleGuideAnimationController(
+      initialState: GuideAnimationState.idle,
+      initialSpeechText: "Ready to check your space whenever you are.",
+    );
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    _ariaGuideController.dispose();
+    super.dispose();
   }
 
   void _loadData() {
@@ -175,41 +185,105 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 20),
 
-              // Hero 3D Shield Floating Animation
-              Center(
-                child: Shield3DWidget(
-                  state: ShieldState.idle,
-                  size: 140,
-                  showRings: true,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ScanMethodSelectionScreen(),
-                      ),
-                    );
-                  },
+              // Hero Guide & Scan Section with 3D Aria beside Scan Action
+              RoundedCard(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Guide Info & Greeting
+                        Expanded(
+                          flex: 6,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: AppColors.surfaceContainer,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.shield_rounded, size: 12, color: AppColors.naturalTeal),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Aria • Safety Guide',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.deepForestGreen,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Tap Aria to wave',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.deepForestGreen,
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'Your friendly 3D companion is on standby to help you perform non-invasive checks.',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.textSecondary,
+                                  height: 1.4,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        // 3D Avatar with subtle idle animation beside the primary Scan action
+                        Expanded(
+                          flex: 5,
+                          child: GestureDetector(
+                            onTap: () {
+                              _ariaGuideController.greeting();
+                              _ariaGuideController.setSpeechText("Hello! Let's ensure your space is peaceful.");
+                            },
+                            child: SizedBox(
+                              height: 150,
+                              child: FemaleGuide3DWidget(
+                                controller: _ariaGuideController,
+                                height: 150,
+                                enableTouch: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    // Primary "Scan Now" Button
+                    PrimaryButton(
+                      text: 'Scan Now',
+                      icon: Icons.radar_rounded,
+                      onPressed: () {
+                        if (widget.onOpenScan != null) {
+                          widget.onOpenScan!();
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ScanMethodSelectionScreen(),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Primary "Scan Now" Button
-              PrimaryButton(
-                text: 'Scan Now',
-                icon: Icons.radar_rounded,
-                onPressed: () {
-                  if (widget.onOpenScan != null) {
-                    widget.onOpenScan!();
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ScanMethodSelectionScreen(),
-                      ),
-                    );
-                  }
-                },
               ),
 
               const SizedBox(height: 8),

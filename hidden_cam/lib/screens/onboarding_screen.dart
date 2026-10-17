@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../services/storage_service.dart';
 import '../widgets/primary_button.dart';
+import '../guide/guide.dart';
 import 'main_navigation_shell.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -16,18 +17,43 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late PageController _pageController;
   int _currentPage = 0;
+  late FemaleGuideAnimationController _guideController;
+  bool _use3DPreview = false;
 
   @override
   void initState() {
     super.initState();
     _currentPage = widget.initialPage;
     _pageController = PageController(initialPage: widget.initialPage);
+    _guideController = FemaleGuideAnimationController(
+      initialState: GuideAnimationState.greeting,
+      initialSpeechText: 'Welcome! I am Aria, your 3D safety companion.',
+    );
   }
 
   @override
   void dispose() {
+    _guideController.dispose();
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _onPageChanged(int page) {
+    setState(() => _currentPage = page);
+    switch (page) {
+      case 0:
+        _guideController.greeting();
+        _guideController.setSpeechText("Welcome! I am Aria, your 3D safety guide.");
+        break;
+      case 1:
+        _guideController.explaining();
+        _guideController.setSpeechText("I'll guide you through mindful checks of your space.");
+        break;
+      case 2:
+        _guideController.reassuring();
+        _guideController.setSpeechText("Private, non-invasive assessment on-device.");
+        break;
+    }
   }
 
   void _finishOnboarding() {
@@ -96,26 +122,80 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                     ],
                   ),
-                  TextButton(
-                    onPressed: _finishOnboarding,
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppColors.textSecondary,
-                      backgroundColor: AppColors.surfaceContainerLow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9999),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _use3DPreview = !_use3DPreview;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _use3DPreview
+                                ? AppColors.naturalTeal.withValues(alpha: 0.15)
+                                : AppColors.surfaceContainerHigh,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: _use3DPreview
+                                  ? AppColors.naturalTeal
+                                  : AppColors.outlineLight,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                _use3DPreview
+                                    ? Icons.view_in_ar_rounded
+                                    : Icons.smart_display_rounded,
+                                size: 14,
+                                color: _use3DPreview
+                                    ? AppColors.naturalTeal
+                                    : AppColors.textSecondary,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                _use3DPreview ? '3D Live' : 'Video Clip',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: _use3DPreview
+                                      ? AppColors.naturalTeal
+                                      : AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 6,
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: _finishOnboarding,
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.textSecondary,
+                          backgroundColor: AppColors.surfaceContainerLow,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(9999),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 6,
+                          ),
+                        ),
+                        child: const Text(
+                          'Skip',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      'Skip',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -125,9 +205,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Expanded(
               child: PageView(
                 controller: _pageController,
-                onPageChanged: (page) {
-                  setState(() => _currentPage = page);
-                },
+                onPageChanged: _onPageChanged,
                 children: [
                   _buildOnboardingStep1(),
                   _buildOnboardingStep2(),
@@ -208,51 +286,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Visual Framing Card
-          Container(
-            width: double.infinity,
-            height: 280,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(28),
-              boxShadow: [AppColors.softShadow],
+          // Visual Framing: Female Guide Video / 3D Live
+          if (_use3DPreview)
+            FemaleGuide3DWidget(
+              controller: _guideController,
+              height: 280,
+              enableTouch: true,
+            )
+          else
+            const FemaleGuideVideoWidget(
+              videoAssetPath: 'assets/videos/welcome_guide.mp4',
+              fallbackState: GuideAnimationState.greeting,
+              speechText: "Hello! I'm Aria, your 3D SafeLens guide.",
+              height: 280,
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(28),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    'assets/images/safelens_onboarding.jpg',
-                    fit: BoxFit.cover,
-                    errorBuilder: (ctx, error, stackTrace) => _buildFallbackIllustration(
-                      Icons.spa_rounded,
-                      'Mindful Awareness',
-                    ),
-                  ),
-                  Positioned(
-                    top: 14,
-                    right: 14,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        shape: BoxShape.circle,
-                        boxShadow: [AppColors.softShadow],
-                      ),
-                      child: const Icon(
-                        Icons.spa_rounded,
-                        color: AppColors.naturalTeal,
-                        size: 18,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
 
-          const SizedBox(height: 28),
+          const SizedBox(height: 24),
 
           const Text(
             'Know your space.',
@@ -287,66 +336,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: double.infinity,
-            height: 280,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(28),
-              boxShadow: [AppColors.softShadow],
+          if (_use3DPreview)
+            FemaleGuide3DWidget(
+              controller: _guideController,
+              height: 280,
+              enableTouch: true,
+            )
+          else
+            const FemaleGuideVideoWidget(
+              videoAssetPath: 'assets/videos/explaining_guide.mp4',
+              fallbackState: GuideAnimationState.explaining,
+              speechText: "I'll guide you through mindful checks step by step.",
+              height: 280,
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(28),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    'assets/images/safelens_onboarding_confidence.jpg',
-                    fit: BoxFit.cover,
-                    errorBuilder: (ctx, error, stackTrace) => _buildFallbackIllustration(
-                      Icons.radar_rounded,
-                      'Guided Check',
-                    ),
-                  ),
-                  Positioned(
-                    top: 14,
-                    left: 14,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        borderRadius: BorderRadius.circular(9999),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.verified_user_rounded,
-                            size: 14,
-                            color: AppColors.naturalTeal,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'Private & Secure',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.deepForestGreen,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
 
-          const SizedBox(height: 28),
+          const SizedBox(height: 24),
 
           const Text(
             'Check with confidence.',
@@ -381,107 +385,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: double.infinity,
+          // Step 3: Interactive 3D Guide showcase
+          FemaleGuide3DWidget(
+            controller: _guideController,
             height: 280,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(28),
-              boxShadow: [AppColors.softShadow],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(28),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    'assets/images/safelens_onboarding_privacy.jpg',
-                    fit: BoxFit.cover,
-                    errorBuilder: (ctx, error, stackTrace) => _buildFallbackIllustration(
-                      Icons.lock_outline_rounded,
-                      '100% On-Device',
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 14,
-                    left: 14,
-                    right: 14,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.92),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.cloud_off_rounded,
-                                  size: 16,
-                                  color: AppColors.naturalTeal,
-                                ),
-                                SizedBox(width: 6),
-                                Expanded(
-                                  child: Text(
-                                    'No Cloud Sync',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.deepForestGreen,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.92),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.enhanced_encryption_rounded,
-                                  size: 16,
-                                  color: AppColors.naturalTeal,
-                                ),
-                                SizedBox(width: 6),
-                                Expanded(
-                                  child: Text(
-                                    'Encrypted Logs',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.deepForestGreen,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            enableTouch: true,
+            speechText: "100% on-device. Your privacy is paramount.",
           ),
 
-          const SizedBox(height: 28),
+          const SizedBox(height: 24),
 
           const Text(
             'Your privacy matters.',
@@ -496,7 +408,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           const SizedBox(height: 10),
 
           const Text(
-            'Your scan information stays under your control. Everything is processed locally on your device with zero cloud tracking.',
+            'All assessments are performed entirely on your device. No camera feeds or room scans leave your phone.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -505,37 +417,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildFallbackIllustration(IconData icon, String label) {
-    return Container(
-      color: AppColors.surfaceContainer,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: AppColors.naturalTeal, size: 32),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppColors.deepForestGreen,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

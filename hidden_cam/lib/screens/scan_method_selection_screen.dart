@@ -5,6 +5,7 @@ import '../models/scan_result_model.dart';
 import '../services/scan_service.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rounded_card.dart';
+import '../guide/guide.dart';
 import 'active_scanning_screen.dart';
 
 class ScanMethodSelectionScreen extends StatefulWidget {
@@ -18,6 +19,22 @@ class ScanMethodSelectionScreen extends StatefulWidget {
 class _ScanMethodSelectionScreenState extends State<ScanMethodSelectionScreen> {
   ScanMethod _selectedMethod = ScanMethod.availableMethods.first;
   ScanResultType _targetOutcome = ScanResultType.normal;
+  late FemaleGuideAnimationController _ariaController;
+
+  @override
+  void initState() {
+    super.initState();
+    _ariaController = FemaleGuideAnimationController(
+      initialState: GuideAnimationState.explaining,
+      initialSpeechText: 'Aria Tip: Infrared Glint checks camera lenses, while RF sweeping spots wireless signals.',
+    );
+  }
+
+  @override
+  void dispose() {
+    _ariaController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +76,59 @@ class _ScanMethodSelectionScreenState extends State<ScanMethodSelectionScreen> {
                     ),
                     const SizedBox(height: 18),
 
-                    // Method Selection Cards
+                    // Guide Explaining Widget
+                    RoundedCard(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      backgroundColor: AppColors.surfaceContainerLow,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: SizedBox(
+                              height: 120,
+                              child: FemaleGuide3DWidget(
+                                controller: _ariaController,
+                                height: 120,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          const Expanded(
+                            flex: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.lightbulb_outline_rounded, size: 14, color: AppColors.naturalTeal),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Aria Explains',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.deepForestGreen,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Different hidden lenses react to light glints, while wireless bugs emit radio pulses. Choose a check below.',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.textSecondary,
+                                    height: 1.35,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
                     ...ScanMethod.availableMethods.map((method) {
                       final isSelected = _selectedMethod.type == method.type;
 

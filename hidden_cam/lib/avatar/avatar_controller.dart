@@ -31,31 +31,28 @@ class SafeLensAvatarController extends ChangeNotifier {
   }
 
   String _animationName(AvatarState state) {
+    // Map to GLB animation names with fallback support
     switch (state) {
       case AvatarState.idle:
-        return 'IDLE';
+        return _availableAnimations.contains('idle') ? 'idle' : 'IDLE';
       case AvatarState.greeting:
-        return 'GREETING_WAVE';
+        return _availableAnimations.contains('greeting') ? 'greeting' : 'GREETING_WAVE';
       case AvatarState.talking:
-        return 'TALKING';
+        return _availableAnimations.contains('explaining') ? 'explaining' : 'TALKING';
       case AvatarState.pointingLeft:
-        return 'POINT_LEFT';
       case AvatarState.pointingRight:
-        return 'POINT_RIGHT';
       case AvatarState.pointingDown:
-        return 'POINT_DOWN';
+        return _availableAnimations.contains('pointing') ? 'pointing' : 'POINT_RIGHT';
       case AvatarState.thinking:
-        return 'THINKING';
+        return _availableAnimations.contains('processing') ? 'processing' : 'THINKING';
       case AvatarState.scanning:
-        return 'SCANNING';
+        return _availableAnimations.contains('scanning') ? 'scanning' : 'SCANNING';
       case AvatarState.safe:
-        return 'SAFE';
-      case AvatarState.caution:
-        return 'CAUTION';
-      case AvatarState.warning:
-        return 'WARNING';
       case AvatarState.success:
-        return 'SUCCESS';
+        return _availableAnimations.contains('reassuring') ? 'reassuring' : 'SAFE';
+      case AvatarState.caution:
+      case AvatarState.warning:
+        return _availableAnimations.contains('processing') ? 'processing' : 'CAUTION';
     }
   }
 

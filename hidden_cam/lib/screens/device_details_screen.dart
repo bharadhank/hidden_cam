@@ -3,6 +3,7 @@ import '../core/theme/app_colors.dart';
 import '../models/scan_result_model.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rounded_card.dart';
+import '../guide/guide.dart';
 import 'safety_steps_screen.dart';
 import 'report_screen.dart';
 
@@ -77,6 +78,58 @@ class DeviceDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+
+              const SizedBox(height: 12),
+
+              // Aria Pointing Guidance Card
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.outlineLight),
+                ),
+                child: const Row(
+                  children: [
+                    GuideFallbackWidget(
+                      state: GuideAnimationState.pointing,
+                      isCircle: true,
+                      height: 38,
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Aria Points Out',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.deepForestGreen,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Icon(Icons.touch_app_rounded, size: 14, color: AppColors.naturalTeal),
+                            ],
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            'Examine the frequency and signal strength below. Check physical items in the ~1.8m zone.',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textSecondary,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 16),

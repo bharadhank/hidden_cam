@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../core/constants/app_strings.dart';
 import '../models/scan_result_model.dart';
-import '../widgets/shield_3d_widget.dart';
 import '../controllers/shield_animation_controller.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rounded_card.dart';
+import '../guide/guide.dart';
 import 'safety_steps_screen.dart';
 import 'scan_method_selection_screen.dart';
 
@@ -59,16 +59,81 @@ class NormalResultScreen extends StatelessWidget {
 
               // Reassuring Summary
               const Text(
-                'Nothing suspicious was identified during this check. Your space feels calm and clear.',
+                'Nothing suspicious was identified during this check.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.deepForestGreen,
+                  height: 1.4,
+                ),
+              ),
+
+              const SizedBox(height: 6),
+
+              const Text(
+                'Your space feels calm and clear. This check scanned optical and RF frequencies.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
                   color: AppColors.textSecondary,
                   height: 1.45,
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 14),
+
+              // Aria Reassurance Companion Card
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.softSageGreen.withValues(alpha: 0.5)),
+                ),
+                child: Row(
+                  children: [
+                    const GuideFallbackWidget(
+                      state: GuideAnimationState.reassuring,
+                      isCircle: true,
+                      height: 42,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Text(
+                                'Aria Reassures',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.deepForestGreen,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Icon(Icons.check_circle_rounded, size: 14, color: AppColors.naturalTeal),
+                            ],
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Remember: This result is an indicator, not proof. Always stay mindful of your surroundings.',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textSecondary,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
 
               // Diagnostics Card
               RoundedCard(

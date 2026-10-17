@@ -159,6 +159,36 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
 
+                const SizedBox(height: 10),
+
+                // Aria Guide Introduction Pill
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.85),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.outlineLight),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        radius: 9,
+                        backgroundImage: AssetImage('assets/images/female_guide_fallback.jpg'),
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        'Guided by Aria • 3D Female Companion',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.naturalTeal,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 const SizedBox(height: 14),
 
                 // Smooth Progress Bar Tracker

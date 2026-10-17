@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../models/scan_result_model.dart';
-import '../widgets/shield_3d_widget.dart';
 import '../controllers/shield_animation_controller.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rounded_card.dart';
+import '../guide/guide.dart';
 import 'device_details_screen.dart';
 import 'safety_steps_screen.dart';
 import 'scan_method_selection_screen.dart';
@@ -66,6 +66,58 @@ class PossibleIndicatorScreen extends StatelessWidget {
 
               const SizedBox(height: 14),
 
+              // Aria Attentive Non-Alarming Reaction Card
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.softAmber.withValues(alpha: 0.5)),
+                ),
+                child: Row(
+                  children: [
+                    const GuideFallbackWidget(
+                      state: GuideAnimationState.pointing,
+                      isCircle: true,
+                      height: 42,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Text(
+                                'Aria\'s Guidance',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.deepForestGreen,
+                                ),
+                              ),
+                              SizedBox(width: 6),
+                              Icon(Icons.info_outline_rounded, size: 14, color: AppColors.softAmber),
+                            ],
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Possible indicator. A closer look may be needed. Stay calm—smart speakers or TV remotes often trigger this check.',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textSecondary,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
               // Reassurance Pill / Disclaimer
               Container(
                 padding: const EdgeInsets.symmetric(
@@ -80,7 +132,7 @@ class PossibleIndicatorScreen extends StatelessWidget {
                   'This result is an indicator, not proof of a hidden camera or unauthorized device.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     color: AppColors.textSecondary,
                     height: 1.4,
                   ),

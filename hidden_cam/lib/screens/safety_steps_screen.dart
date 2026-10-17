@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rounded_card.dart';
+import '../guide/guide.dart';
 import 'report_screen.dart';
 
 class SafetyStepsScreen extends StatefulWidget {
@@ -13,6 +14,22 @@ class SafetyStepsScreen extends StatefulWidget {
 
 class _SafetyStepsScreenState extends State<SafetyStepsScreen> {
   final Set<int> _completedSteps = {};
+  late FemaleGuideAnimationController _guideController;
+
+  @override
+  void initState() {
+    super.initState();
+    _guideController = FemaleGuideAnimationController(
+      initialState: GuideAnimationState.explaining,
+      initialSpeechText: 'Stay calm. Follow these gentle recommendations at your own pace.',
+    );
+  }
+
+  @override
+  void dispose() {
+    _guideController.dispose();
+    super.dispose();
+  }
 
   final List<Map<String, String>> _steps = [
     {
@@ -70,46 +87,43 @@ class _SafetyStepsScreenState extends State<SafetyStepsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 child: Column(
                   children: [
-                    // Context Banner
+                    // Context Banner with Aria Explaining Gesture
                     RoundedCard(
-                      padding: const EdgeInsets.all(18),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                       backgroundColor: AppColors.surfaceContainer,
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: 38,
-                            height: 38,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.spa_rounded,
-                              color: AppColors.naturalTeal,
-                              size: 20,
+                          Expanded(
+                            flex: 3,
+                            child: SizedBox(
+                              height: 110,
+                              child: FemaleGuide3DWidget(
+                                controller: _guideController,
+                                height: 110,
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 14),
+                          const SizedBox(width: 12),
                           const Expanded(
+                            flex: 5,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Stay calm and grounded',
+                                  'Aria\'s Calm Advice',
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.deepForestGreen,
                                   ),
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  'Most signals turn out to be harmless home gadgets. Take a breath and follow these gentle recommendations at your own pace.',
+                                  'Most indicators are benign consumer devices. Work through these verification steps calmly at your own pace.',
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: AppColors.textSecondary,
-                                    height: 1.45,
+                                    height: 1.4,
                                   ),
                                 ),
                               ],

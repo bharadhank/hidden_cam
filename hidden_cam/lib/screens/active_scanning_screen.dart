@@ -4,10 +4,10 @@ import '../core/theme/app_colors.dart';
 import '../models/scan_method.dart';
 import '../models/scan_result_model.dart';
 import '../services/scan_service.dart';
-import '../widgets/shield_3d_widget.dart';
 import '../controllers/shield_animation_controller.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rounded_card.dart';
+import '../guide/guide.dart';
 import 'processing_screen.dart';
 
 class ActiveScanningScreen extends StatefulWidget {
@@ -26,10 +26,16 @@ class ActiveScanningScreen extends StatefulWidget {
 
 class _ActiveScanningScreenState extends State<ActiveScanningScreen> {
   final ScanService _scanService = ScanService();
+  late FemaleGuideAnimationController _ariaGuideController;
+  bool _showGuideAvatar = true;
 
   @override
   void initState() {
     super.initState();
+    _ariaGuideController = FemaleGuideAnimationController(
+      initialState: GuideAnimationState.scanning,
+      initialSpeechText: 'Attentive scan in progress. Keep moving steadily.',
+    );
     _startScan();
   }
 
@@ -74,6 +80,7 @@ class _ActiveScanningScreenState extends State<ActiveScanningScreen> {
 
   @override
   void dispose() {
+    _ariaGuideController.dispose();
     _scanService.stopScan();
     super.dispose();
   }
@@ -169,18 +176,58 @@ class _ActiveScanningScreenState extends State<ActiveScanningScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 14),
 
-                  // Central Dynamic Scanner Stage: Circular Gauge + 3D Shield + Progress Arc
+                  // View Mode Toggle (Aria Scanning Guide vs Shield)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showGuideAvatar = !_showGuideAvatar;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceContainerHigh,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: AppColors.outlineLight),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            _showGuideAvatar ? Icons.person_rounded : Icons.shield_rounded,
+                            size: 14,
+                            color: AppColors.naturalTeal,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            _showGuideAvatar ? 'Guide Mode: Aria Active' : 'Guide Mode: Shield Focus',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.deepForestGreen,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(Icons.swap_horiz_rounded, size: 14, color: AppColors.textTertiary),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  // Central Dynamic Scanner Stage: Circular Gauge + Guide / 3D Shield + Progress Arc
                   SizedBox(
-                    width: 250,
-                    height: 250,
+                    width: 260,
+                    height: 260,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
                         // Circular Progress Arc
                         CustomPaint(
-                          size: const Size(250, 250),
+                          size: const Size(260, 260),
                           painter: _ScanGaugePainter(
                             progress: telemetry.progress / 100.0,
                             arcColor: AppColors.naturalTeal,
@@ -188,16 +235,34 @@ class _ActiveScanningScreenState extends State<ActiveScanningScreen> {
                           ),
                         ),
 
-                        // Center 3D Shield with Scanning Rings
-                        Shield3DWidget(
-                          state: ShieldState.scanning,
-                          size: 130,
-                          showRings: true,
-                        ),
+                        if (_showGuideAvatar)
+                          // Aria Attentive Pose with Animated Scanning Rings
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const ScanRingsWidget(
+                                size: 240,
+                                isScanning: true,
+                                ringColor: AppColors.naturalTeal,
+                              ),
+                              FemaleGuide3DWidget(
+                                controller: _ariaGuideController,
+                                height: 210,
+                                enableTouch: false,
+                              ),
+                            ],
+                          )
+                        else
+                          // Center 3D Shield with Scanning Rings
+                          const Shield3DWidget(
+                            state: ShieldState.scanning,
+                            size: 130,
+                            showRings: true,
+                          ),
 
                         // Progress percentage badge overlay at bottom
                         Positioned(
-                          bottom: 12,
+                          bottom: 10,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
@@ -235,7 +300,39 @@ class _ActiveScanningScreenState extends State<ActiveScanningScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
+
+                  // Aria Scanning Companion Advice Card
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceContainerLow,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.outlineLight),
+                    ),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 12,
+                          backgroundImage: AssetImage('assets/images/female_guide_fallback.jpg'),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            'Aria: Inspecting ${widget.method.title}. Keep device steady at eye level.',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.deepForestGreen,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
 
                   // Realtime Telemetry Instruction Pill Box
                   RoundedCard(

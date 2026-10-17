@@ -2,8 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../models/scan_result_model.dart';
-import '../widgets/shield_3d_widget.dart';
-import '../controllers/shield_animation_controller.dart';
+import '../guide/guide.dart';
 import 'normal_result_screen.dart';
 import 'possible_indicator_screen.dart';
 import 'unable_to_confirm_screen.dart';
@@ -20,6 +19,7 @@ class ProcessingScreen extends StatefulWidget {
 class _ProcessingScreenState extends State<ProcessingScreen> {
   int _currentStep = 0;
   Timer? _stepTimer;
+  late FemaleGuideAnimationController _ariaGuideController;
 
   final List<String> _stages = [
     'Evaluating frequency spectrum consistency...',
@@ -30,6 +30,10 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
   @override
   void initState() {
     super.initState();
+    _ariaGuideController = FemaleGuideAnimationController(
+      initialState: GuideAnimationState.processing,
+      initialSpeechText: 'Synthesizing spatial check data...',
+    );
     _startProcessingTimeline();
   }
 
@@ -72,6 +76,7 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
 
   @override
   void dispose() {
+    _ariaGuideController.dispose();
     _stepTimer?.cancel();
     super.dispose();
   }
@@ -88,14 +93,17 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
             children: [
               const Spacer(flex: 2),
 
-              // 3D Volumetric Shield in PROCESSING state with holographic rings
-              Shield3DWidget(
-                state: ShieldState.processing,
-                size: 160,
-                showRings: true,
+              // 3D Female Guide in PROCESSING state (Restrained, calm movement)
+              SizedBox(
+                height: 180,
+                child: FemaleGuide3DWidget(
+                  controller: _ariaGuideController,
+                  height: 180,
+                  enableTouch: false,
+                ),
               ),
 
-              const SizedBox(height: 36),
+              const SizedBox(height: 24),
 
               const Text(
                 'Analyzing Environment',
